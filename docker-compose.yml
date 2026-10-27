@@ -1,0 +1,43 @@
+services:
+  db:
+    image: mariadb:11
+    container_name: compressor34_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: compressor34
+      MYSQL_USER: compress
+      MYSQL_PASSWORD: P@sComp1589Vlg12/7
+      MYSQL_ROOT_PASSWORD: rootpass
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      # Использование встроенного скрипта MariaDB для проверки готовности
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 3s
+
+  web:
+    build: .
+    container_name: compressor34_web
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+    working_dir: /app
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - PYTHONDONTWRITEBYTECODE=1
+
+volumes:
+  db_data:

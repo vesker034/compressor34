@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block title %}Как добраться — адреса магазинов и сервисного центра | Компрессор34{% endblock %}
+{% block meta_description %}Адреса и схема проезда: продажа компрессоров и запчастей в Волгограде (ул. Землячки, 47Г) и ремонт техники (ул. Советская, 29). Смотрите карту Яндекс.{% endblock %}
+{% block meta_keywords %}Компрессор34, как добраться, адрес, карта, Волгоград, компрессоры, запчасти, ремонт, ул. Землячки 47Г, ул. Советская 29{% endblock %}
+{% block og_title %}Как добраться — Компрессор34{% endblock %}
+{% block og_description %}Адреса и схема проезда: продажа и ремонт. Карта и контакты.{% endblock %}
+
+{% block extra_head %}
+  {% load static %}
+  <link rel="canonical" href="{{ request.build_absolute_uri }}">
+
+ 
+  <link rel="stylesheet" href="{% static 'css/map.css' %}">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Компрессор34",
+    "url": "https://compressor34.ru",
+    "logo": "{% static 'media/logo.png' %}",
+    "address": [
+      {
+        "@type": "PostalAddress",
+        "addressLocality": "Волгоград",
+        "streetAddress": "ул. Землячки, д. 47Г",
+        "addressCountry": "RU"
+      },
+      {
+        "@type": "PostalAddress",
+        "addressLocality": "Волгоград",
+        "streetAddress": "ул. Советская, д. 29",
+        "addressCountry": "RU"
+      }
+    ],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+7-999-934-83-39",
+      "contactType": "customer service"
+    }
+  }
+  </script>
+
+
+  <style>
+    .ymaps-ctrl-hint{
+      position:absolute;left:12px;bottom:12px;padding:8px 10px;
+      background:rgba(0,0,0,.65);color:#fff;border-radius:6px;
+      font-size:12px;line-height:1.2;pointer-events:none;opacity:0;
+      transition:opacity .2s ease
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <section class="map-section">
+    <h2 class="map-title">Как добраться?</h2>
+
+    <div class="map-block">
+      <h3 class="map-subtitle">Продажа компрессоров и запчастей</h3>
+      <p class="map-address">г. Волгоград, ул. Землячки, д. 47Г</p>
+      <div class="yamap" id="map-1"></div>
+    </div>
+
+    <div class="map-block">
+      <h3 class="map-subtitle">Ремонт техники</h3>
+      <p class="map-address">г. Волгоград, ул. Советская, д. 29</p>
+      <div class="yamap" id="map-2"></div>
+    </div>
+  </section>
+{% endblock %}
+
+{% block extra_js %}
+  <!-- Яндекс.Карты -->
+  <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU{% if YMAPS_APIKEY %}&apikey={{ YMAPS_APIKEY }}{% endif %}"></script>
+  <script>
+  (function () {
+    const points = [
+      { id: 'map-1', coords: [48.756513, 44.523882], title: 'Продажа компрессоров и запчастей' },
+      { id: 'map-2', coords: [48.713137, 44.529013], title: 'Ремонт техники' }
+    ];
+
+    function attachCtrlZoom(map, container) {
+      map.behaviors.disable('scrollZoom');
+      let ctrlPressed = false;
+
+      const hint = document.createElement('div');
+      hint.className = 'ymaps-ctrl-hint';
+      hint.textContent = 'Удерживайте Ctrl и крутите колесо для изменения масштаба';
+      container.appendChild(hint);
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Control' && !ctrlPressed) {
+          ctrlPressed = true;
+          map.behaviors.enable('scrollZoom');
+          hint.style.opacity = '0';
+        }
+      });
+      document.addEventListener('keyup', (e) => {
+        if (e.key === 'Control') {
+          ctrlPressed = false;
+          map.behaviors.disable('scrollZoom');
+        }
+      });
+
+      map.events.add('wheel', function (e) {
+        if (!ctrlPressed) {
+          hint.style.opacity = '1';
+          clearTimeout(hint._t);
+          hint._t = setTimeout(() => (hint.style.opacity = '0'), 1500);
+          if (e && typeof e.preventDefault === 'function') e.preventDefault();
+          const domEvt = e && e.get && e.get('domEvent');
+          if (domEvt && domEvt.originalEvent && typeof domEvt.originalEvent.preventDefault === 'function') {
+            domEvt.originalEvent.preventDefault();
+          }
+        }
+      });
+    }
+
+    function init() {
+      points.forEach(p => {
+        const el = document.getElementById(p.id);
+        if (!el) return;
+
+        const map = new ymaps.Map(p.id, {
+          center: p.coords,
+          zoom: 17,
+          controls: []
+        });
+
+        map.geoObjects.add(new ymaps.Placemark(
+          p.coords,
+          { balloonContent: p.title },
+          { preset: 'islands#redIcon' }
+        ));
+
+        attachCtrlZoom(map, el);
+      });
+    }
+
+    if (window.ymaps && ymaps.ready) ymaps.ready(init);
+    else document.addEventListener('DOMContentLoaded', () => ymaps.ready(init));
+  })();
+  </script>
+{% endblock %}

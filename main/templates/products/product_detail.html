@@ -1,0 +1,281 @@
+{% extends "base.html" %} 
+{% load static %} 
+
+{% block title %}{{ product.title }}— купить по цене {{ product.price|default:"уточняйте" }} ₽ | Compressor34{% endblock %} 
+
+{% block meta_description %}{{ product.description|striptags|truncatechars:160 }}{% endblock %} 
+
+{% block meta_keywords %}{{ product.title }}{% if product.brand %}, {{ product.brand.name }}{% endif %}{% if product.category %}, {{ product.category }}{% endif %}, купить, цена{% endblock %} 
+
+{% block extra_head %}
+<link rel="canonical" href="{{ request.build_absolute_uri }}" />
+<link rel="alternate" href="{{ request.build_absolute_uri }}" hreflang="ru-ru" />
+<link rel="alternate" href="{{ request.build_absolute_uri }}" hreflang="x-default" />
+<meta property="og:type" content="product" />  
+<meta property="og:title" content="{{ product.title }} — Compressor34" />
+<meta property="og:description" content="{{ product.description|striptags|truncatechars:160 }}" />
+<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% if product.images.all %}{% with img=product.images.all.0 %}{{ img.image.url }}{% endwith %}{% elif product.image %}{{ product.image.url }}{% else %}{% static 'media/logo.png' %}{% endif %}" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Главная",
+        "item": "{{ request.scheme }}://{{ request.get_host }}/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Каталог",
+        "item": "{{ request.scheme }}://{{ request.get_host }}{% url 'product_list' %}"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "{{ product.title|escapejs }}",
+        "item": "{{ request.build_absolute_uri }}"
+      }
+    ]
+  }
+</script>
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "{{ product.title|escapejs }}",
+    "description": "{{ product.description|striptags|truncatechars:300|escapejs }}",
+    "url": "{{ request.build_absolute_uri }}",
+    {% if product.images.all %}
+    "image": [
+      {% for i in product.images.all %}
+      "{{ request.scheme }}://{{ request.get_host }}{{ i.image.url }}"{% if not forloop.last %},{% endif %}
+      {% endfor %}
+    ],
+    {% elif product.image %}
+    "image": "{{ request.scheme }}://{{ request.get_host }}{{ product.image.url }}",
+    {% else %}
+    "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'media/nophoto.svg' %}",
+    {% endif %}
+    {% if product.brand %}
+    "brand": { "@type": "Brand", "name": "{{ product.brand.name|escapejs }}" },
+    {% endif %}
+    {% if product.sku %}
+    "sku": "{{ product.sku|escapejs }}",
+    {% endif %}
+    {% if product.category %}
+    "category": "{{ product.category|escapejs }}",
+    {% endif %}
+    {% if product.price %}
+    "offers": {
+      "@type": "Offer",
+      "price": "{{ product.price }}",
+      "priceCurrency": "RUB",
+      "url": "{{ request.build_absolute_uri }}"
+      {% if product.in_stock is not None %}
+      , "availability": "{% if product.in_stock %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}"
+      {% endif %}
+    }{% endif %}
+    {% if product.rating_value and product.rating_count %}
+    , "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "{{ product.rating_value }}",
+      "reviewCount": "{{ product.rating_count }}"
+    }
+    {% endif %}
+  }
+</script>
+
+<!-- Подключаем Bootstrap 5 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+{% endblock %} 
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/image_slider.css' %}" />
+<link rel="stylesheet" href="{% static 'css/product_detail.css' %}" />
+<script src="{% static 'js/image_slider.js' %}" defer></script>
+
+<style>
+/* Bootstrap кастомизация с нашими переменными */
+:root {
+  --bs-primary: var(--color-blue);
+  --bs-secondary: var(--color-muted);
+  --bs-success: var(--color-success);
+  --bs-info: var(--color-blue-light);
+  --bs-warning: var(--color-warning);
+  --bs-danger: var(--color-error);
+  --bs-light: var(--background-light);
+  --bs-dark: var(--color-dark);
+  --bs-font-sans-serif: var(--font-primary);
+  --bs-border-radius: var(--radius-md);
+}
+
+body {
+  font-family: var(--font-primary) !important;
+  background-color: var(--color-light) !important;
+  color: var(--color-dark) !important;
+}
+
+.btn-primary {
+  background-color: var(--color-blue) !important;
+  border-color: var(--color-blue) !important;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-blue-dark) !important;
+  border-color: var(--color-blue-dark) !important;
+}
+
+.btn-outline-primary {
+  color: var(--color-blue) !important;
+  border-color: var(--color-blue) !important;
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--color-blue) !important;
+  border-color: var(--color-blue) !important;
+  color: white !important;
+}
+
+.badge.bg-accent {
+  background-color: var(--color-accent) !important;
+}
+
+.btn-accent {
+  background-color: var(--color-accent) !important;
+  border-color: var(--color-accent) !important;
+  color: white !important;
+}
+
+.btn-accent:hover {
+  background-color: var(--color-accent-dark) !important;
+  border-color: var(--color-accent-dark) !important;
+}
+
+.card {
+  border-color: var(--color-gray-lightest) !important;
+  box-shadow: var(--shadow-md) !important;
+  transition: box-shadow var(--transition-fast), transform var(--transition-fast) !important;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-lg) !important;
+  transform: translateY(-2px) !important;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+  background-color: #fafafa !important;
+}
+</style>
+
+<div class="container my-5">
+  <div class="row g-4">
+    <!-- Слайдер изображений -->
+    <div class="col-lg-6">
+      {% include "component/image_slider.html" with images=product.images.all %}
+    </div>
+    
+    <!-- Информация о товаре -->
+    <div class="col-lg-6">
+      <div class="d-flex justify-content-between align-items-start mb-3">
+        <div class="flex-grow-1">
+          <h1 class="h2 mb-2 fw-semibold">{{ product.title }}</h1>
+          <div class="mb-3" style="font-size: 1.2rem; line-height: 1.5;">
+            {{ product.description|linebreaks }}
+          </div>
+        </div>
+        {% if product.brand and product.brand.logo %}
+        <img class="ms-3" src="{{ product.brand.logo.url }}" alt="{{ product.brand.name }}" style="max-height: 56px; object-fit: contain;">
+        {% endif %}
+      </div>
+      
+      <!-- Бейджи -->
+      <div class="d-flex flex-wrap gap-2 mb-3">
+        {% if product.category == "kompressory" %}
+        <span class="badge rounded-pill" style="background-color: var(--color-accent); color: white; font-size: 12px; padding: 4px 10px; text-transform: uppercase;">
+          Компрессор
+        </span>
+        {% elif product.category == "zapchasti" %}
+        <span class="badge rounded-pill" style="background-color: var(--color-accent); color: white; font-size: 12px; padding: 4px 10px; text-transform: uppercase;">
+          {% if product.type %} {{ product.get_type_display }} {% else %} Запчасть {% endif %}
+        </span>
+        {% endif %}
+        {% if product.is_new %}
+        <span class="badge rounded-pill" style="background-color: var(--color-error); color: #000000; font-style: italic; font-weight: lighter; font-size: 12px; padding: 4px 10px;">
+          Новинка
+        </span>
+        {% endif %}
+      </div>
+      
+      <!-- Цена -->
+      {% if product.price %}
+      <div class="h3 text-end mb-4 fw-bold">{{ product.price }} ₽</div>
+      {% endif %}
+      
+      <!-- Основные характеристики -->
+      {% with first5=product.features.all|slice:":5" %}
+      {% if first5 %}
+      <div class="card mb-4 border-0" style="background-color: transparent; box-shadow: none !important;">
+        <div class="card-body p-0">
+          <h6 class="mb-2 fw-semibold">Основные характеристики:</h6>
+          <ul class="list-unstyled mb-0" style="padding-left: 18px;">
+            {% for f in first5 %}
+            <li class="mb-1">{{ f.name }}: {{ f.value }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      {% endif %}
+      {% endwith %}
+      
+      <!-- Кнопки действий -->
+      <div class="d-flex flex-wrap gap-3 mb-4">
+        {% if product.avito_url %}
+        <a href="{{ product.avito_url }}" target="_blank" class="btn btn-lg px-4" style="background-color: var(--color-accent); border-color: var(--color-accent); color: white; border-radius: 1.4rem; min-width: 12rem;">
+          Смотреть на Авито
+        </a>
+        {% endif %}
+        
+        {% if product.category == "kompressory" %}
+        <a href="{% url 'product_list' %}?category=kompressory" class="btn btn-outline-primary btn-lg px-4" style="border-radius: 1.4rem; min-width: 12rem;">
+          Все компрессоры
+        </a>
+        {% elif product.category == "zapchasti" %}
+        <a href="{% url 'product_list' %}?category=zapchasti" class="btn btn-outline-primary btn-lg px-4" style="border-radius: 1.4rem; min-width: 12rem;">
+          Все запчасти
+        </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  
+  <!-- Технические характеристики -->
+  <div class="mt-5 pt-4">
+    <h3 class="h4 mb-3 fw-semibold">Технические характеристики</h3>
+    <div class="table-responsive">
+      <table class="table" style="border-collapse: collapse;">
+        <tbody>
+          {% for f in product.features.all %}
+          <tr style="border-bottom: 1px solid #e9eef3;">
+            <td class="fw-semibold py-3" style="width: 40%; color: var(--color-dark);">{{ f.name }}</td>
+            <td class="py-3">{{ f.value }}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="2" class="text-center text-muted py-3">Характеристики не указаны</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock %}

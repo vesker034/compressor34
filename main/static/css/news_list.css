@@ -1,0 +1,205 @@
+body {
+  background: #ffffff;
+  font-family: 'Nunito', sans-serif;
+  color: var(--color-dark, #071621);
+  margin: 0;
+}
+
+.news-page-title {
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--color-dark, #071621);
+  margin: 0 0 100px calc((100% - 1637px) / 2);
+}
+
+.news-list {
+  width: 1637px;
+  margin: 0 auto 40px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-items: center;
+  column-gap: 120px;
+  row-gap: 64px;
+  box-sizing: border-box;
+}
+
+.news-card {
+  position: relative;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.news-thumb {
+  position: relative;
+  width: 300px;
+  height: 268px;
+  border-radius: 0;
+  overflow: visible;
+}
+
+.news-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 0;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 127px;
+  height: 27px;
+  background: var(--detail, #97D48B);
+  color: #000;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 10px;
+  line-height: 27px;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.news-category {
+  position: absolute;
+  top: -14px;
+  right: -20px;
+  z-index: 2;
+}
+
+.news-title {
+  margin: 12px 0 0;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.news-title__link,
+.news-title__link:visited,
+.news-title__link:hover,
+.news-title__link:active,
+.news-title__link:focus {
+  color: var(--color-dark, #071621);
+  text-decoration: none;
+}
+
+.news-empty {
+  width: 1637px;
+  margin: 0 auto 16px;
+  color: #68707a;
+}
+
+/* ===== Кнопка "Больше статей" ===== */
+.news-more-box {
+  width: 305px;
+  height: 52px;
+  margin: 24px auto 200px;
+  position: relative;
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+.news-more {
+  display: inline-block;
+  width: 305px;
+  height: 52px;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  line-height: 0;
+  transition: transform .15s ease;
+  border: none;                /* убрать границы */
+  outline: none;               /* убрать обводку */
+  box-shadow: none;            /* убрать тени */
+  background: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+}
+
+.news-more img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: 0 !important;        /* на всякий случай */
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+.news-more__label {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; font-weight: 700; color: #fff;
+  user-select: none; pointer-events: none;
+}
+
+.news-more:hover { transform: scale(1.03); }
+
+/* Фокус-обводку тоже убираем */
+.news-more:focus,
+.news-more:focus-visible,
+.news-more:active {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+.news-more::-moz-focus-inner { border: 0; }
+
+/* ===== Адаптив ===== */
+@media (max-width: 1700px) {
+  .news-page-title { margin-left: 30px; }
+  .news-list { width: auto; padding: 0 30px; column-gap: 80px; }
+}
+
+@media (max-width: 1200px) {
+  .news-list { grid-template-columns: repeat(3, 1fr); column-gap: 60px; }
+}
+
+@media (max-width: 900px) {
+  .news-list { grid-template-columns: repeat(2, 1fr); column-gap: 40px; }
+}
+
+@media (max-width: 660px) {
+  .news-page-title { margin-left: 16px; }
+  .news-list { grid-template-columns: 1fr; row-gap: 40px; padding: 0 16px; }
+  .news-category { top: -12px; right: -6px; }
+}
+/* Мобилка: 2 столбца */
+@media (max-width: 660px){
+  .news-page-title{
+    margin: 0 0 24px;
+    text-align: center;
+  }
+
+  .news-list{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 12px;
+    row-gap: 20px;
+    padding: 0 12px;
+  }
+
+  
+  .news-card{ width: 80%; }
+  .news-thumb{ width: 80%; height: auto; aspect-ratio: 4 / 3; }
+  .news-thumb img{ width: 80%; height: 80%; object-fit: cover; }
+
+  .news-title{ font-size: 14px; margin-top: 8px; }
+
+  
+  .news-category{ top: -10px; right: -6px; }
+  .chip{
+    width: auto; height: 22px; line-height: 22px;
+    font-size: 12px; padding: 0 8px; border-radius: 8px;
+  }
+}

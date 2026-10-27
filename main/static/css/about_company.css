@@ -1,0 +1,139 @@
+.company-section {
+  background-color: #ffffff;
+  width: 1595px;
+  height: 637px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Nunito', sans-serif;
+}
+
+.company-container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 100%;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+}
+
+.company-text {
+  max-width: 900px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding-right: 40px;
+  position: relative;
+  margin-top: -80px;
+}
+
+.company-heading {
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--color-dark);
+  margin-bottom: 20px;
+  transform: translateY(-100px);
+}
+
+.company-paragraphs p {
+  font-size: 20px;
+  color: var(--color-dark);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.company-image {
+  width: 564px;
+  height: 347px;
+  background: url("../media/company.svg") center/contain no-repeat;
+  flex-shrink: 0;
+  margin-top: 10px;
+}
+
+/* ====== MEDIA ====== */
+
+/* 1600↓ — делаем блок резиновым и чуть компактнее */
+@media (max-width: 1595px) {
+  .company-section { width: 100%; height: auto; }
+  .company-container { padding: 48px; }
+  .company-text { margin-top: -48px; }
+  .company-heading { transform: translateY(-72px); }
+}
+
+/* 1360↓ — поджимаем типографику и картинку */
+@media (max-width: 1360px) {
+  .company-container { padding: 40px; }
+  .company-text { padding-right: 28px; max-width: 820px; }
+  .company-heading { font-size: 30px; transform: translateY(-56px); }
+  .company-paragraphs p { font-size: 19px; }
+  .company-image { width: 520px; height: 320px; }
+}
+
+/* 1180↓ — нейтрализуем «вылет» заголовка и отрицательные отступы */
+@media (max-width: 1180px) {
+  .company-text { margin-top: -20px; padding-right: 24px; max-width: 760px; }
+  .company-heading { font-size: 28px; transform: none; }
+  .company-image { width: 460px; height: 284px; }
+}
+
+/* 1024↓ — планшеты: ещё компактнее и ограничиваем длину строки */
+@media (max-width: 1024px) {
+  .company-text { padding-right: 20px; margin-top: 0; max-width: 700px; }
+  .company-paragraphs p { font-size: 18px; }
+  .company-image { width: 400px; height: 260px; }
+}
+
+
+@media (max-width: 900px) {
+  .company-container {
+    gap: 20px;
+    align-items: center;
+  }
+  .company-text { max-width: 640px; }
+  .company-image { display: none;}
+}
+
+/* 768↓ — мобильная колонка, центрирование, адаптивная картинка */
+@media (max-width: 768px) {
+  .company-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 24px;
+  }
+  .company-text {
+    max-width: 100%;
+    padding: 0;
+    margin-top: 0;
+  }
+  .company-heading {
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+  .company-paragraphs p {
+    font-size: 16px;
+    margin-bottom: 16px;
+  }
+  .company-image {
+    width: min(100%, 360px);
+    height: auto;
+    aspect-ratio: 564 / 347;
+    margin-top: 16px;
+  }
+}
+
+/* 560↓ — чуть меньше отступы и высота кнопок/элементов если есть */
+@media (max-width: 560px) {
+  .company-container { padding: 20px 16px; }
+  .company-heading { font-size: 22px; }
+  .company-paragraphs p { font-size: 15.5px; }
+}
+
+/* 400↓ — ультра-узкие устройства */
+@media (max-width: 400px) {
+  .company-heading { font-size: 20px; }
+  .company-paragraphs p { font-size: 15px; }
+  .company-image { width: 260px; }
+}

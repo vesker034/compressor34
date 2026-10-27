@@ -1,0 +1,625 @@
+/* ================================================
+   ШРИФТЫ
+   ================================================ */
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
+
+@font-face {
+  font-family: "Nunito";
+  src: url("/static/fonts/Nunito/Nunito[wght].ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Nunito";
+  src: url("/static/fonts/Nunito/Nunito-Italic[wght].ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ================================================
+   CSS ПЕРЕМЕННЫЕ - ЦВЕТА
+   ================================================
+   Все основные цвета, используемые в проекте.
+   Централизованное управление брендовыми цветами.
+   ================================================ */
+:root {
+  /* Основной текст и фон */
+  --color-dark: #071621;
+  --color-light: #ffffff;
+  --background: #f2f2f2;
+  --background-light: #f6f9fc;
+
+  /* Оттенки синего (основной цвет бренда) */
+  --color-blue-dark: #2980b9;
+  --color-blue: #357fa7;
+  --color-blue-light: #82b0c4;
+  --color-blue-lighter: #b0b6bd;
+
+  /* Акцентные цвета */
+  --color-accent: #1abc9c;
+  --color-accent-dark: #128971;
+  --color-detail: #97d48b;
+
+  /* Предупреждение и ошибки */
+  --color-error: #ee9d9d;
+  --color-warning: #ffc107;
+  --color-success: #20c7a2;
+
+  /* Нейтральные/серые тона (для текста второго уровня) */
+  --color-muted: #6b7280;
+  --color-gray-light: #9aa4af;
+  --color-gray-lighter: #cfd6de;
+  --color-gray-lightest: #e5e7eb;
+
+  /* ================================================
+     CSS ПЕРЕМЕННЫЕ - ТИПОГРАФИЯ
+     ================================================
+     Основной шрифт для всего проекта.
+     ================================================ */
+  --font-primary: "Nunito", Arial, sans-serif;
+  --font-secondary: "Inter", sans-serif;
+
+  /* Основные размеры шрифтов */
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-base: 16px;
+  --font-size-lg: 20px;
+  --font-size-xl: 24px;
+  --font-size-2xl: 32px;
+  --font-size-3xl: 36px;
+
+  /* Толщина шрифта (font-weight) */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Высота строк */
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.35;
+  --line-height-relaxed: 1.45;
+
+  /* ================================================
+     CSS ПЕРЕМЕННЫЕ - ОТСТУПЫ И РАЗМЕРЫ
+     ================================================
+     Стандартные значения для padding, margin, gap.
+     Используются для создания единого ритма.
+     ================================================ */
+  --container: 1637px;
+  --gutter: 30px;
+
+  /* Базовые отступы (используются для margin/padding) */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 24px;
+  --spacing-2xl: 32px;
+  --spacing-3xl: 48px;
+  --spacing-4xl: 64px;
+
+  /* Gaps для flex/grid контейнеров */
+  --gap-sm: 8px;
+  --gap-md: 16px;
+  --gap-lg: 24px;
+  --gap-xl: 32px;
+  --gap-2xl: 40px;
+  --gap-3xl: 48px;
+
+  /* ================================================
+     CSS ПЕРЕМЕННЫЕ - СКРУГЛЕНИЯ УГЛОВ
+     ================================================
+     Стандартные значения border-radius.
+     Переход от небольших скруглений к круглым.
+     ================================================ */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  /* ================================================
+     CSS ПЕРЕМЕННЫЕ - ТЕНИ
+     ================================================
+     Предопределённые тени для разных уровней.
+     ================================================ */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 2px 10px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.15);
+  --shadow-xl: 0 8px 24px rgba(0, 0, 0, 0.2);
+  --shadow-inset: inset 0 1px 0 rgba(0, 0, 0, 0.02);
+
+  /* ================================================
+     CSS ПЕРЕМЕННЫЕ - АНИМАЦИИ И ПЕРЕХОДЫ
+     ================================================
+     Стандартные timing functions и длительности.
+     Для единообразных эффектов по всему сайту.
+     ================================================ */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.2s ease;
+  --transition-slow: 0.25s ease;
+  --transition-slower: 0.3s ease;
+
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* ================================================
+   RESET / НОРМАЛИЗАЦИЯ СТИЛЕЙ
+   ================================================
+   Сброс браузерных стилей по умолчанию.
+   Единая база для всех элементов.
+   ================================================ */
+
+/* Единая модель расчёта размеров (border-box) */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Сброс браузерных отступов */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+/* Предотвращение горизонтального скролла */
+html,
+body {
+  overflow-x: hidden;
+}
+
+/* Базовые стили для всех картинок */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Сброс списков */
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Сброс ссылок */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Сброс заголовков */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-weight: inherit;
+}
+
+/* Сброс параграфов */
+p {
+  margin: 0;
+}
+
+/* Сброс форм */
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+}
+
+/* ================================================
+   БАЗОВЫЕ СТИЛИ ЭЛЕМЕНТОВ
+   ================================================
+   Стили по умолчанию для главных элементов.
+   ================================================ */
+
+body {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+  color: var(--color-dark);
+  background-color: var(--color-light);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Основной контент занимает всё доступное место */
+main,
+.content {
+  flex: 1;
+}
+
+/* ================================================
+   УТИЛИТАРНЫЕ КЛАССЫ
+   ================================================
+   Многоразовые классы для типичных задач.
+   ================================================ */
+
+/* Скрытие текста для скрин-ридеров (доступность) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Сброс списков */
+.list-reset {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Стили для встроенного flex контейнера */
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Стили для grid контейнеров */
+.grid-auto {
+  display: grid;
+  auto-flow: dense;
+}
+
+/* Текстовые утилиты */
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-muted {
+  color: var(--color-muted);
+  opacity: 0.9;
+}
+
+.text-link {
+  color: var(--color-blue);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.text-link:hover {
+  text-decoration: underline;
+  opacity: 0.8;
+}
+
+/* Скругления углов */
+.rounded-sm {
+  border-radius: var(--radius-sm);
+}
+
+.rounded-md {
+  border-radius: var(--radius-md);
+}
+
+.rounded-lg {
+  border-radius: var(--radius-lg);
+}
+
+.rounded-full {
+  border-radius: var(--radius-full);
+}
+
+/* Тени */
+.shadow-sm {
+  box-shadow: var(--shadow-sm);
+}
+
+.shadow-md {
+  box-shadow: var(--shadow-md);
+}
+
+.shadow-lg {
+  box-shadow: var(--shadow-lg);
+}
+
+.shadow-xl {
+  box-shadow: var(--shadow-xl);
+}
+
+/* Отступы - margin */
+.m-0 {
+  margin: 0;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.mb-lg {
+  margin-bottom: var(--spacing-lg);
+}
+
+.mb-xl {
+  margin-bottom: var(--spacing-xl);
+}
+
+.mb-2xl {
+  margin-bottom: var(--spacing-2xl);
+}
+
+.mt-lg {
+  margin-top: var(--spacing-lg);
+}
+
+.mt-xl {
+  margin-top: var(--spacing-xl);
+}
+
+/* ================================================
+   ПЕРЕХОДЫ И АНИМАЦИИ
+   ================================================
+   Стандартные эффекты при взаимодействии.
+   ================================================ */
+
+/* Базовый transition для кнопок и ссылок */
+button,
+a,
+.link-like {
+  transition:
+    transform var(--transition-fast),
+    opacity var(--transition-fast),
+    color var(--transition-fast),
+    background-color var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+/* Hover эффект: небольшое масштабирование */
+.hover-scale {
+  transition: transform var(--transition-fast);
+}
+
+.hover-scale:hover {
+  transform: scale(1.03);
+}
+
+/* Hover эффект: смещение вверх */
+.hover-lift {
+  transition: transform var(--transition-fast);
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+}
+
+/* ================================================
+   ТОЧКИ АДАПТИВНОСТИ (BREAKPOINTS)
+   ================================================
+   Стандартные размеры для медиа-запросов.
+   Используются для responsive дизайна.
+   ================================================ */
+
+/* @media (max-width: 1637px)  - Большие экраны */
+/* @media (max-width: 1440px)  - Экраны >= планшета 12" */
+/* @media (max-width: 1200px)  - Экраны >= планшета */
+/* @media (max-width: 1024px)  - Планшеты */
+/* @media (max-width: 900px)   - Средние планшеты */
+/* @media (max-width: 770px)   - Маленькие планшеты */
+/* @media (max-width: 480px)   - Мобильные телефоны */
+
+/* ================================================
+   КОМПОНЕНТЫ - КАРТОЧКИ
+   ================================================
+   Базовые стили для карточек продуктов/услуг.
+   ================================================ */
+
+.card {
+  background: var(--color-light);
+  border: 1px solid var(--color-gray-lightest);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: var(--spacing-lg);
+  transition:
+    box-shadow var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+/* ================================================
+   КОМПОНЕНТЫ - КНОПКИ
+   ================================================
+   Базовые стили для интерактивных элементов.
+   ================================================ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--radius-md);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-base);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+}
+
+/* Основная кнопка */
+.btn-primary {
+  background-color: var(--color-blue);
+  color: var(--color-light);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-blue-dark);
+}
+
+/* Вторичная кнопка */
+.btn-secondary {
+  background-color: transparent;
+  color: var(--color-blue);
+  border: 2px solid var(--color-blue);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-blue);
+  color: var(--color-light);
+}
+
+/* ================================================
+   КОМПОНЕНТЫ - ЧИПСЫ / МЕТКИ
+   ================================================
+   Маленькие метки для категорий и статусов.
+   ================================================ */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--radius-full);
+  background-color: var(--color-blue-light);
+  color: var(--color-light);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  white-space: nowrap;
+}
+
+/* ================================================
+   КОМПОНЕНТЫ - КОНТЕЙНЕРЫ
+   ================================================
+   Узкие контейнеры для контента.
+   ================================================ */
+
+.container-like {
+  width: 100%;
+  max-width: calc(var(--container) + var(--gutter) * 2);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/* Для небольших блоков контента */
+.container-narrow {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/* ================================================
+   КОМПОНЕНТЫ - СЕКЦИИ
+   ================================================
+   Блоки с большим контентом.
+   ================================================ */
+
+.section {
+  padding: 80px 0;
+  background-color: var(--color-light);
+}
+
+.section--accent {
+  background-color: var(--color-blue);
+  color: var(--color-light);
+}
+
+.section--alt {
+  background-color: var(--background-light);
+}
+
+.section-title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  margin-bottom: var(--spacing-3xl);
+  color: var(--color-dark);
+}
+
+/* ================================================
+   КОМПОНЕНТЫ - АВТОДОПОЛНЕНИЕ
+   ================================================
+   Стили для выпадающего меню поиска.
+   ================================================ */
+
+.autocomplete-box {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  background: var(--color-blue-light);
+  color: var(--color-light);
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  z-index: 100;
+  width: 100%;
+  max-height: 240px;
+  overflow-y: auto;
+  font-size: var(--font-size-base);
+  box-shadow: 0 8px 18px rgba(23, 67, 94, 0.12);
+  display: none;
+}
+
+.autocomplete-suggestion {
+  padding: var(--spacing-md) var(--spacing-md);
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.autocomplete-suggestion:hover {
+  background: var(--color-blue);
+}
+
+.autocomplete-wrap {
+  position: relative;
+  width: 100%;
+}

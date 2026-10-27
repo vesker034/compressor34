@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Блог — статьи и новости | Компрессор34{% endblock %}
+{% block meta_description %}Свежие статьи и новости о компрессорном оборудовании: обзоры, советы по выбору, обслуживание и ремонт. Читайте блог Компрессор34.{% endblock %}
+{% block meta_keywords %}блог, новости, статьи, компрессоры, обслуживание, ремонт, Компрессор34{% endblock %}
+{% block og_title %}Блог — Компрессор34{% endblock %}
+{% block og_description %}Статьи и новости о компрессорном оборудовании, обслуживании и ремонте.{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/news_list.css' %}">
+<link rel="canonical" href="{{ request.build_absolute_uri }}">
+<link rel="alternate" href="{{ request.build_absolute_uri }}" hreflang="ru-ru">
+<link rel="alternate" href="{{ request.build_absolute_uri }}" hreflang="x-default">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'media/logo.png' %}">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Главная", "item": "{{ request.scheme }}://{{ request.get_host }}/" },
+    { "@type": "ListItem", "position": 2, "name": "Блог", "item": "{{ request.build_absolute_uri }}" }
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Блог — Компрессор34",
+  "url": "{{ request.build_absolute_uri }}"
+}
+</script>
+
+{% if page_obj %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Последние публикации",
+  "itemListElement": [
+    {% for news in page_obj %}
+    {% if not forloop.first %},{% endif %}
+    {
+      "@type": "ListItem",
+      "position": {{ forloop.counter }},
+      "item": {
+        "@type": "BlogPosting",
+        "headline": "{{ news.title|escapejs }}",
+        "url": "{{ request.scheme }}://{{ request.get_host }}{% url 'news_detail' news.slug %}"{% if news.preview_image %},
+        "image": "{{ request.scheme }}://{{ request.get_host }}{{ news.preview_image.url }}"{% endif %}{% if news.created_at %}
+        , "datePublished": "{{ news.created_at|date:'c' }}"{% endif %}{% if news.category %}
+        , "articleSection": "{{ news.category.name|default:news.category|escapejs }}"{% endif %}
+      }
+    }
+    {% endfor %}
+  ]
+}
+</script>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<main class="content news-page">
+  <h1 class="news-page-title">Блог</h1>
+
+  <div id="newsList" class="news-list" data-total="{{ total_count }}">
+    {% for news in page_obj %}
+      <div class="news-card">
+        <div class="news-thumb">
+          {% if news.preview_image %}
+            <img src="{{ news.preview_image.url }}" alt="{{ news.title }}"class="news-img">
+          {% else %}
+        <img src="{% static 'media/nophoto.svg' %}" alt="Нет изображения" class="news-img">
+        {% endif %}
+          {% if news.category %}
+            <div class="chip news-category">{{ news.category.name|default:news.category }}</div>
+          {% endif %}
+        </div>
+        <div class="news-title">
+          <a class="news-title__link" href="{% url 'news_detail' news.slug %}">
+            {{ news.title }}
+          </a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  {% if page_obj.has_next and total_count|default:0 >= 16 %}
+    <div class="news-more-box">
+      <button id="newsLoadMore"
+              class="news-more"
+              type="button"
+              data-url="{% url 'news_list' %}"
+              data-next-page="{{ page_obj.next_page_number }}">
+        <img src="{% static 'media/morebutton.svg' %}" alt="">
+        <span class="news-more__label">Больше</span>
+      </button>
+    </div>
+  {% endif %}
+</main>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function(){
+  const list = document.getElementById('newsList');
+  const btn  = document.getElementById('newsLoadMore');
+  if (!list || !btn) return;
+
+  const total = Number(list.dataset.total || '0');
+  if (total < 14) { btn.remove(); return; }
+
+  btn.addEventListener('click', async () => {
+    const url  = btn.dataset.url;
+    const next = Number(btn.dataset.nextPage || '2');
+
+    btn.disabled = true;
+    btn.classList.add('is-loading');
+
+    try{
+      const resp = await fetch(`${url}?page=${next}`, { headers: { 'X-Requested-With':'fetch' }});
+      const html = await resp.text();
+      const tmp  = document.createElement('div');
+      tmp.innerHTML = html;
+
+      const newCards = tmp.querySelectorAll('#newsList .news-card');
+      newCards.forEach(card => list.appendChild(card));
+
+      const newBtn = tmp.querySelector('#newsLoadMore');
+      if (!newCards.length || !newBtn) {
+        btn.remove();
+      } else {
+        btn.dataset.nextPage = newBtn.dataset.nextPage;
+      }
+    } catch (e){
+      console.error('Load more failed', e);
+      btn.remove();
+    } finally{
+      btn.disabled = false;
+      btn.classList.remove('is-loading');
+    }
+  });
+})();
+</script>
+{% endblock %}

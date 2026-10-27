@@ -1,0 +1,36 @@
+{% load static %}
+
+<div class="image-slider">
+    <!-- Превью -->
+    <div class="slider-thumbnails">
+        {% if images %}
+            {% for img in images %}
+                <img src="{{ img.image.url }}" alt="thumb {{ forloop.counter }}"
+                     class="thumb{% if forloop.first %} active{% endif %}"
+                     data-index="{{ forloop.counter0 }}">
+            {% endfor %}
+        {% else %}
+            <img src="{% static 'media/nophoto.svg' %}" alt="Нет изображения"
+                 class="thumb active" data-index="0">
+        {% endif %}
+    </div>
+
+    <!-- Главное изображение -->
+    <div class="slider-main">
+        {% if images %}
+            <button class="slider-btn prev" type="button">‹</button>
+            <img src="{{ images.0.image.url }}" alt="main" class="slider-current" data-index="0">
+            <button class="slider-btn next" type="button">›</button>
+        {% else %}
+            <img src="{% static 'media/nophoto.svg' %}" alt="Нет изображения" 
+                 class="slider-current" data-index="0">
+        {% endif %}
+    </div>
+</div>
+
+<!-- Модалка (fullscreen просмотр) -->
+<div class="slider-modal hidden">
+    <button class="modal-btn prev" type="button">‹</button>
+    <img src="" alt="full" class="modal-img">
+    <button class="modal-btn next" type="button">›</button>
+</div>

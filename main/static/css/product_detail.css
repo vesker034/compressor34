@@ -1,0 +1,198 @@
+.product-detail {
+  max-width: 1100px;
+  margin: 40px auto;
+  display: grid;
+  grid-template-columns: 420px 1fr; /* слева слайдер, справа инфо */
+  gap: 40px;
+  font-family: var(--font-primary);
+  color: var(--color-dark);
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ==== Заголовок + бренд ==== */
+.title-row {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.product-title {
+  margin: 0;
+  font-size: 2em;
+  color: var(--color-dark);
+  line-height: 1.2;
+}
+
+.brand-logo {
+  max-height: 56px;
+  width: auto;
+  object-fit: contain;
+  align-items: flex-end;
+  margin-left: auto;
+}
+
+/* ==== Бейджи (категория/тип/новинка) ==== */
+.badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background:  var( --color-accent);
+  font-size: 12px;
+  line-height: 1;
+  white-space: nowrap;
+  color: #fff;
+  text-transform:uppercase ;
+  font-weight: bold;
+}
+
+.badge-new {
+  border-color: transparent;
+  color: #000000;
+  font-style: italic;
+  font-weight: lighter ;
+  background: var(--color-red);
+}
+
+/* ==== Цена (справа, крупно) ==== */
+.product-price {
+  margin-top: 4px;
+  color: var(--color-dark);
+  font-weight: 700;
+  font-size: 1.4em;
+  text-align: right;
+}
+
+/* ==== Описание под ценой ==== */
+.description {
+  margin: 8px 0 4px;
+  font-size: 1.2rem;
+  line-height: 1.5;
+  color: var(--color-dark);
+  text-align: left;
+}
+
+/* ==== Основные характеристики (первые 5) ==== */
+.features-top {
+  margin-top: 8px;
+}
+.features-top b {
+  display: block;
+  margin-bottom: 6px;
+}
+.features-top ul {
+  margin: 0;
+  padding-left: 18px;
+}
+.features-top li {
+  margin: 4px 0;
+}
+
+/* ==== Кнопки ==== */
+.cta-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 12px 0 4px;
+}
+
+.btn,
+.btn-avito,
+.btn-all {
+  display: inline-block;
+  box-sizing: border-box;
+  min-width: 12rem;
+  text-align: center;
+  padding: 10px 16px;
+  font-size: 1rem;
+  border-radius: 1.4rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s ease, opacity 0.2s ease;
+}
+
+.btn-avito {
+  background: var(--color-accent);
+  color: #fff;
+  margin-right: 15.2rem;
+}
+.btn-avito:hover { background: var(--color-accent-dark); }
+
+.btn-all {
+  background: var(--color-accent, #82B0C4);
+  color: #fff;
+}
+.btn-all:hover { opacity: 0.92; }
+
+.back-wrap { margin-top: 6px; }
+.back-link {
+  color: var(--color-blue);
+  text-decoration: none;
+}
+.back-link:hover { text-decoration: underline; }
+
+/* ==== Полные характеристики внизу (таблица) ==== */
+.tech-features {
+  max-width: 1100px;
+  margin: 32px auto 0;
+  padding-bottom: 40px;
+}
+
+.tech-features h3 {
+  margin: 0 0 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.tech-features table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tech-features tbody tr:nth-child(odd) {
+  background: #fafafa;
+}
+
+.tech-features td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #e9eef3;
+  vertical-align: top;
+}
+
+.tech-features td:first-child {
+  width: 42%;
+  font-weight: 500;
+  color: var(--color-dark);
+}
+
+/* ==== Служебные (на будущее) ==== */
+#all-features { margin-top: 12px; }
+.hidden { display: none; }
+
+/* ==== Убрали вкладки (больше не нужны) ==== */
+.tabs, .tab, .tab-content { display: none !important; }
+
+/* ==== Адаптив ==== */
+@media (max-width: 980px) {
+  .product-detail {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin: 24px auto;
+    padding: 0 12px;
+  }
+  .product-price { text-align: left; }
+  .brand-logo { max-height: 44px; }
+  .tech-features { padding: 0 12px; }
+}

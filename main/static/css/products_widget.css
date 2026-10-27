@@ -1,0 +1,213 @@
+.products-widget {
+  --card-radius: 12px;
+  --card-shadow: 0 2px 10px rgba(0,0,0,.06);
+  --border: #e5e7eb;
+  --text: #222;
+  --muted: #6b7280;
+  --bg: #fff;
+
+  /* зелёная/синяя как на скрине */
+  --btn-buy: #19c2a2;
+  --btn-buy-hover: #12a88c;
+  --btn-info: #2d6f98;
+  --btn-info-hover: #245e81;
+
+  margin: 16px 0 8px;
+  font-family: inherit;
+  color: var(--text);
+  display: flex;
+ flex-wrap: wrap;
+    align-items: flex-start;
+    flex-direction: column;
+    align-content: space-around;
+
+
+
+   
+}
+.tab-content{
+  background-position: center;
+  overflow: hidden;
+  width: 1636px;
+  height: 467px;
+  margin: 0 auto 100px auto;
+  font-family: 'Nunito', sans-serif;
+  display: flex;
+  align-items: center;
+}
+/* ---------- Tabs ---------- */
+.products-widget .tabs {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin: 0 0 14px;
+}
+
+.products-widget .tab {
+  appearance: none;
+  border: none;
+  background: none;
+  padding: 0;
+  font-size: 18px;
+  font-weight: 400;
+  color: #1f2937; /* тёмно-серый/чёрный текст */
+  cursor: pointer;
+  transition: color .2s ease;
+}
+
+.products-widget .tab:hover {
+  color: #000; /* при наведении чуть темнее */
+}
+
+.products-widget .tab.active {
+  font-weight: 700; /* выделяем жирным */
+}
+
+.products-widget .tab-content { display: none; }
+.products-widget .tab-content.active { display: block; }
+
+/* ---------- Cards row ---------- */
+.products-widget .product-list-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/* Чтобы влезало по 5 карточек, как на скрине */
+@media (min-width: 1100px) {
+  .products-widget .product-list-row {
+    justify-content: flex-start;
+  }
+  .products-widget .product-list-row > * {
+    flex: 0 0 calc((100% - 16px*4) / 5); /* 5 в ряд с gap=16 */
+    max-width: calc((100% - 16px*4) / 5);
+  }
+}
+
+/* Адаптив — 4/3/2/1 колонки */
+@media (max-width: 1099.98px) {
+  .products-widget .product-list-row > * { flex: 0 0 calc((100% - 16px*3) / 4); max-width: calc((100% - 16px*3) / 4); }
+}
+@media (max-width: 900.98px) {
+  .products-widget .product-list-row > * { flex: 0 0 calc((100% - 16px*2) / 3); max-width: calc((100% - 16px*2) / 3); }
+}
+@media (max-width: 700.98px) {
+  .products-widget .product-list-row > * { flex: 0 0 calc((100% - 16px*1) / 2); max-width: calc((100% - 16px*1) / 2); }
+}
+@media (max-width: 480.98px) {
+  .products-widget .product-list-row > * { flex: 0 0 100%; max-width: 100%; }
+}
+
+/* ---------- Card (общие стили для include component/product_card.html) ---------- */
+/* Если внутри инклуда уже есть свои классы — эти стили лишь «подтянут» внешний вид */
+.products-widget .product-card,
+.products-widget .product,
+.products-widget .card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+  padding: 12px 12px 14px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 100%;
+}
+
+/* Картинка */
+.products-widget .product-card img,
+.products-widget .product img,
+.products-widget .card img {
+  display: block;
+  margin: 8px auto 4px;
+  width: 120px;
+  height: 80px;
+  object-fit: contain;
+}
+
+/* Название/цена */
+.products-widget .product-title,
+.products-widget .title {
+  font-size: 16px;
+  line-height: 1.25;
+  min-height: 32px; 
+  color: var(--text);
+  margin: 4px 0 0;
+}
+
+.products-widget .product-price,
+.products-widget .price {
+  font-weight: 600;
+  font-size: 21px;
+  margin-top: 2px;
+}
+
+/* Кнопки */
+.products-widget .btn,
+.products-widget .btn-buy,
+.products-widget .btn-details,
+.products-widget a.btn,
+.products-widget button.btn {
+  display: inline-block;
+  width: 120px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-size: 12px;
+  line-height: 1;
+  border: none;
+  cursor: pointer;
+  transition: .2s ease;
+}
+
+
+.products-widget .btn-buy,
+.products-widget .btn-primary {
+  background: var(--btn-buy);
+  color: #fff;
+}
+.products-widget .btn-buy:hover,
+.products-widget .btn-primary:hover {
+  background: var(--btn-buy-hover);
+}
+
+.products-widget .btn-details,
+.products-widget .btn-secondary {
+  background: var(--btn-info);
+  color: #fff;
+}
+.products-widget .btn-details:hover,
+.products-widget .btn-secondary:hover {
+  background: var(--btn-info-hover);
+}
+
+/* Контейнер для кнопок — две в ряд, узкие и с небольшим зазором */
+.products-widget .actions,
+.products-widget .buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+/* Мелкие подписи (например, «Нет изображения») */
+.products-widget .muted,
+.products-widget .subtitle,
+.products-widget .sku {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* Небольшие сглаживания несовпадающих классов из include */
+.products-widget .product-card .buy,
+.products-widget .product-card .more,
+.products-widget .product .buy,
+.products-widget .product .more {
+  /* если внутри инклуда кнопки названы иначе — подтянем их к общему виду */
+  composes: btn from global;
+}
+
+/* Скрываем возможные горизонтальные полоски между карточками от внешних контейнеров */
+.products-widget .product-list-row > * { overflow: visible; }

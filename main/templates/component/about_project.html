@@ -1,0 +1,122 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/about_project.css' %}">
+
+<section class="section about-section">
+  <div class="container">
+    <h3 class="about-title">О проекте</h3>
+
+    <div class="about-banner">
+      <h2>Компрессор34</h2>
+      <p>
+        Мы специализируемся на комплексных решениях в сфере компрессорного оборудования: от<br>
+        профессионального подбора до полной интеграции на объекте. Организуем поставку, монтаж,<br>
+        пусконаладку и обеспечиваем техническую поддержку на каждом этапе. Работаем с ведущими брендами,<br>
+        гарантируя качество, надёжность и результат, соответствующий задачам вашего бизнеса.
+      </p>
+      <div class="about-button-box">
+        <a href="/about/" class="about-button">
+          <img src="{% static 'media/button_torn_194x52.svg' %}" alt="">
+          <span class="about-button__label">Подробнее</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="services-list">
+      <h3>Услуги</h3>
+      <ol>
+        <li>Подбор компрессорного оборудования под задачи клиента</li>
+        <li>Поставка воздушных компрессоров и комплектующих</li>
+        <li>Проектирование компрессорных станций и магистралей</li>
+        <li>Монтаж и подключение оборудования на объекте</li>
+        <li>Пусконаладочные работы</li>
+        <li>Техническое обслуживание и ремонт</li>
+        <li>Диагностика и аудит пневматического оборудования</li>
+        <li>Модернизация компрессорных систем</li>
+        <li>Аренда компрессоров и оборудования</li>
+        <li>Консультации и обучение персонала</li>
+      </ol>
+    </div>
+
+    <!-- Кнопка с рваным краем 305x52 -->
+    <div class="services-button-box">
+      <a href="/services/" class="services-button" aria-label="Перейти к услугам">
+        <img src="{% static 'media/button_torn.svg' %}" alt="">
+        <span class="services-button__label">Перейти к услугам</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<style>
+@media (max-width: 900px){
+  .about-title{
+    margin: 12px 0 8px !important;
+    text-align: center !important;
+    top: 0 !important;
+    margin-left: 0 !important;
+    font-size: 28px; margin-bottom: 60px; 
+  }
+
+  .about-banner{
+    width: 100% !important;
+    height: auto !important;
+    padding: 16px 12px !important;
+    text-align: center !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    border-radius: 12px;
+  }
+
+  .about-banner h2{
+    margin: 4px 0 6px;
+    font-size: clamp(18px, 5.5vw, 22px);
+  }
+
+  .about-banner p{
+    max-width: 620px;
+    margin: 0 auto 10px !important;
+    font-size: 14px !important;
+    line-height: 1.6;
+  }
+
+  .about-banner p br{ display: none !important; }
+
+  .about-button-box{
+    width: 184px;
+    height: 48px;
+    margin: 0 auto;
+  }
+  .about-button,
+  .about-button img{ width: 100%; height: 100%; display: block; }
+  .about-button__label{ font-size: 20px; }
+}
+
+@media (max-width: 360px){
+  .about-button-box{ width: 168px; height: 44px; }
+  .about-button__label{ font-size: 18px; }
+}
+
+@media (max-width: 900px){
+  .services-list{ text-align: center; font-size: 28px; margin-bottom: 60px; }
+  
+  .services-list ol{
+    display: inline-block;
+    margin: 0 auto;
+    padding: 0;
+    list-style: decimal inside;
+    max-width: 620px;
+    text-align: left;    
+  }
+
+  .services-list ol li{
+    margin-bottom: 10px;
+    text-indent: 0;
+    padding-left: 0;
+    line-height: 1.5;
+  }
+}
+</style>

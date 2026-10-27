@@ -1,0 +1,90 @@
+@media (max-width: 900px){
+  .about-company-page{ padding: 8px 12px; }
+  .about-company-page h2{ font-size: clamp(18px, 5vw, 24px); margin: 10px 0 14px; }
+  .about-company-page p{ font-size: 14px; line-height: 1.5; }
+}
+
+@media (max-width: 900px){
+  .company-container{
+    display: block !important;   
+  }
+  .company-text{ text-align: center; }
+  .company-paragraphs p{ margin: 8px 0; }
+  .company-image{
+    height: 180px;
+    border-radius: 12px;
+    margin-top: 12px;
+    background-size: cover !important;
+    background-position: center !important;
+  }
+}
+
+.advantages-grid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 16px;
+}
+.advantage-item{
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(255,255,255,.04);
+  padding: 10px 12px; border-radius: 10px;
+}
+.advantage-item img{ width: 36px; height: 36px; object-fit: contain; }
+.advantages-title{ text-align: center; }
+
+@media (max-width: 900px){
+  .advantages-grid{ grid-template-columns: repeat(2,1fr); }
+}
+@media (max-width: 480px){
+  .advantages-grid{ grid-template-columns: 1fr; }
+  .advantage-item{ justify-content: center; text-align: center; }
+}
+
+
+.values-left p{ margin: 0; }
+.values-right .value-item{
+  display: flex; align-items: center; gap: 10px; margin: 10px 0;
+}
+.values-right .value-item img{ width: 22px; height: 22px; }
+
+@media (max-width: 900px){
+  .values-container{padding: 20px;}
+  .values-columns{ grid-template-columns: 1fr; }
+  .values-left, .values-right{ text-align: center; }
+  .values-right .value-item{ justify-content: center; }
+}
+
+.what-grid{
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 16px;
+}
+.what-item{ text-align: center; padding: 8px; }
+.what-item img{ width: 200px; height: 200px; object-fit: contain; margin-bottom: 6px; }
+.what-title{ text-align: center; }
+
+@media (max-width: 1024px){ .what-grid{ grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 520px){
+  .what-grid{ grid-template-columns: 1fr; }
+  .what-item img{ width: 64px; height: 64px; }
+}
+
+.why-choose__title{ text-align: center; }
+
+
+.why-choose__item h3{ margin: 0 0 6px; font-size: 27px; }
+.why-choose__item p{ margin: 0; font-size: 20px; line-height: 1.45; }
+
+@media (max-width: 900px){
+  .why-choose__items{ grid-template-columns: 1fr; }
+}
+
+@media (max-width: 900px){
+  .documents-section{ display: none !important; }
+  .documents, .docs, .documents-wrapper{ display: none !important; }
+}
+
+
+@media (max-width: 1024px){
+  .about-company-page br{ display: none; }
+}

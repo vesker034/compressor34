@@ -1,0 +1,249 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+{% if category_selected %}{{ category_selected.name }} — купить в Волгограде | Компрессор34{% else %}Каталог товаров — Компрессор34{% endif %}
+{% endblock %}
+
+{% block meta_description %}
+{% if category_selected %}{{ category_selected.name }}: подбор и покупка. Популярные модели, фильтры по брендам и типам, наличие и цена. Доставка и сервис в Волгограде и области.{% else %}Каталог компрессоров и запчастей: популярные позиции, новинки, удобные фильтры. Доставка и сервис в Волгограде и области.{% endif %}
+{% endblock %}
+
+{% block meta_keywords %}
+{% if category_selected %}{{ category_selected.name }}, купить, цена, Волгоград, Компрессор34{% else %}компрессоры, запчасти, купить, цена, Волгоград, Компрессор34{% endif %}
+{% endblock %}
+
+{% block og_title %}
+{% if category_selected %}{{ category_selected.name }} — Компрессор34{% else %}Каталог товаров — Компрессор34{% endif %}
+{% endblock %}
+
+{% block og_description %}
+{% if category_selected %}Выберите и закажите {{ category_selected.name }}. Фильтры, цены, наличие, сервис.{% else %}Каталог компрессоров и запчастей с фильтрами, ценами и наличием.{% endif %}
+{% endblock %}
+
+{% block extra_head %}
+<link rel="canonical" href="{{ request.build_absolute_uri }}">
+<link rel="alternate" href="{{ request.build_absolute_uri }}" hreflang="ru-ru">
+<link rel="alternate" href="{{ request.build_absolute_uri }}" hreflang="x-default">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'media/logo.png' %}">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Главная", "item": "{{ request.scheme }}://{{ request.get_host }}/" }{% if category_selected %},
+    { "@type": "ListItem", "position": 2, "name": "{{ category_selected.name|escapejs }}", "item": "{{ request.build_absolute_uri }}" }{% endif %}
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "{% if category_selected %}{{ category_selected.name|escapejs }}{% else %}Каталог товаров{% endif %}",
+  "url": "{{ request.build_absolute_uri }}"
+}
+</script>
+
+{% if products %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "{% if category_selected %}{{ category_selected.name|escapejs }}{% else %}Каталог товаров{% endif %}",
+  "itemListElement": [
+    {% for product in products %}
+    {% if not forloop.first %},{% endif %}
+    {
+      "@type": "ListItem",
+      "position": {{ forloop.counter }},
+      "item": {
+        "@type": "Product",
+        "name": "{{ product.title|default_if_none:product.slug|default:product.slug|escapejs }}",
+        "url": "{{ request.scheme }}://{{ request.get_host }}{% if product.get_absolute_url %}{{ product.get_absolute_url }}{% else %}{% url 'product_detail' product.slug %}{% endif %}"{% if product.image %}
+        , "image": "{{ request.scheme }}://{{ request.get_host }}{{ product.image.url }}"{% endif %}{% if product.brand %}
+        , "brand": { "@type": "Brand", "name": "{{ product.brand.name|escapejs }}" }{% endif %}{% if product.price %}
+        , "offers": { "@type": "Offer", "price": "{{ product.price }}", "priceCurrency": "RUB", "url": "{{ request.build_absolute_uri }}" }{% endif %}
+      }
+    }
+    {% endfor %}
+  ]
+}
+</script>
+{% endif %}
+
+<!-- Подключаем Bootstrap 5 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/product.css' %}">
+
+<style>
+/* Bootstrap кастомизация */
+:root {
+  --bs-primary: var(--color-blue);
+  --bs-secondary: var(--color-muted);
+  --bs-success: var(--color-success);
+  --bs-info: var(--color-blue-light);
+  --bs-warning: var(--color-warning);
+  --bs-danger: var(--color-error);
+  --bs-light: var(--background-light);
+  --bs-dark: var(--color-dark);
+  --bs-font-sans-serif: var(--font-primary);
+  --bs-border-radius: var(--radius-md);
+  --bs-gutter-x: var(--gutter);
+}
+
+body {
+  font-family: var(--font-primary) !important;
+  color: var(--text) !important;
+}
+
+.products-page {
+  max-width: calc(var(--container) + var(--gutter) * 2);
+  margin: 0 auto;
+  padding: 0 var(--gutter) 2rem;
+}
+
+.btn-primary {
+  background-color: var(--color-blue) !important;
+  border-color: var(--color-blue) !important;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-blue-dark) !important;
+  border-color: var(--color-blue-dark) !important;
+}
+
+.card {
+  border: 1px solid var(--color-gray-lightest) !important;
+  box-shadow: var(--shadow-md) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.card:hover {
+  transform: translateY(-5px) !important;
+  box-shadow: var(--shadow-lg) !important;
+}
+
+/* Адаптивные стили для сетки */
+@media (max-width: 1200px) {
+  .row-cols-xl-5 {
+    row-cols: 3 !important;
+  }
+}
+
+@media (max-width: 992px) {
+  .row-cols-lg-4 {
+    row-cols: 2 !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .row-cols-md-3 {
+    row-cols: 1 !important;
+  }
+}
+
+.load-more {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 220px;
+  height: 56px;
+  margin: 24px auto 0;
+  padding: 0;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #fff;
+  text-decoration: none;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  background-image: url('/static/media/morebutton.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  cursor: pointer;
+  transition: filter .15s ease, transform .15s ease;
+  text-shadow: 0 1px 2px rgba(0,0,0,.25);
+}
+
+.load-more:hover  { filter: brightness(.95); transform: scale(1.02); }
+.load-more:active { transform: scale(.98); }
+</style>
+
+<div class="products-page">
+  <h1 class="page-title mb-4">
+    {% if category_selected %}
+      {{ category_selected.name }}
+    {% else %}
+      Все товары
+    {% endif %}
+  </h1>
+
+  <div class="row">
+    <!-- Фильтры -->
+    {% if category_selected and category_selected.slug == 'kompressory' %}
+    <div class="col-lg-3 mb-4">
+      <aside class="card">
+        <div class="card-body">
+          {% include "component/brand_filter.html" %}
+        </div>
+      </aside>
+    </div>
+    <div class="col-lg-9">
+    {% elif category_selected and category_selected.slug == 'zapchasti' %}
+    <div class="col-lg-3 mb-4">
+      <aside class="card">
+        <div class="card-body">
+          {% include "component/type_filter.html" %}
+        </div>
+      </aside>
+    </div>
+    <div class="col-lg-9">
+    {% else %}
+    <div class="col-12">
+    {% endif %}
+      <!-- Список товаров -->
+      <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-3" id="product-container">
+        {% for product in products %}
+          {% include "component/product_card.html" with product=product %}
+        {% empty %}
+        <div class="col-12">
+          <p class="text-center text-muted">Нет товаров.</p>
+        </div>
+        {% endfor %}
+      </div>
+
+      <!-- Кнопка "Загрузить еще" -->
+      {% if has_next %}
+      <div class="text-center mt-5">
+        <button class="load-more" data-next="{{ next_page }}">Больше</button>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var mq = window.matchMedia('(max-width: 900px)');
+  if (!mq.matches) return;
+  var url = new URL(window.location.href);
+  if (url.searchParams.has('per')) return;
+  url.searchParams.set('per', '6');
+  url.searchParams.set('page', '1');
+  window.location.replace(url.toString());
+})();
+</script>
+<script src="{% static 'js/load_more.js' %}"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock %}

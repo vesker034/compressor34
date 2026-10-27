@@ -1,0 +1,106 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/heder.css' %}" />
+<script src="{% static 'js/search.js' %}"></script>
+<header>
+  <div class="header-main">
+    <div class="header-flex">
+      <button
+        class="burger"
+        type="button"
+        aria-label="Меню"
+        aria-controls="site-nav"
+        aria-expanded="false"
+      >
+        <span></span><span></span><span></span><span></span><span></span>
+      </button>
+      <div class="header-logo">
+        <a href="{% url 'home' %}">
+          <img src="{% static 'media/logo.svg' %}" alt="Логотип" />
+        </a>
+      </div>
+
+      <!-- Поиск -->
+      <div class="header-center">
+        <div style="position: relative; width: 100%">
+          <form
+            class="search-bar"
+            method="get"
+            action="{% url 'product_search' %}"
+            autocomplete="off"
+          >
+            <input
+              type="text"
+              name="q"
+              class="search-input"
+              id="product-search-input"
+              placeholder="Поиск по товарам..."
+              autocomplete="off"
+            />
+            <button type="submit" class="search-icon"></button>
+          </form>
+          <div
+            class="autocomplete-box"
+            id="autocomplete-box"
+            style="display: none"
+          ></div>
+        </div>
+      </div>
+
+      <!-- Контакты -->
+      <div class="contact">
+        <div class="header-contact">
+          <div class="header-contact-row">
+            <img src="{% static 'media/Stopwatch.svg' %}" alt="Время работы" />
+            Пн–пт с 9.00 –18.00
+          </div>
+          <div class="header-contact-row">
+            <img src="{% static 'media/Incoming-Call.svg' %}" alt="Контакты" />
+            +7(902)389-34-42
+          </div>
+        </div>
+        <div class="header-call">
+          <img src="{% static 'media/phone-call.svg' %}" alt="phone-call" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Навигация -->
+  <nav class="header-nav-wrap" id="site-nav">
+    <div class="header-nav">
+      <a href="{% url 'about' %}">О проекте</a>
+      <a href="{% url 'product_list' %}?category=kompressory">Компрессоры</a>
+      <a href="{% url 'product_list' %}?category=zapchasti">Запчасти</a>
+      <a href="{% url 'service_list' %}">Услуги</a>
+      <a href="{% url 'delivery' %}">Доставка и оплата</a>
+      <a href="{% url 'news_list' %}">Блог</a>
+      <a href="{% url 'how_to_get' %}">Как добраться?</a>
+    </div>
+  </nav>
+  <div class="nav-backdrop" hidden></div>
+</header>
+<br />
+<script>
+  (function () {
+    const burger = document.querySelector(".burger");
+    const nav = document.getElementById("site-nav");
+    const backdrop = document.querySelector(".nav-backdrop");
+
+    if (!burger || !nav || !backdrop) return;
+
+    function toggle(open) {
+      const isOpen = open ?? !nav.classList.contains("is-open");
+      nav.classList.toggle("is-open", isOpen);
+      burger.classList.toggle("is-open", isOpen);
+      document.body.classList.toggle("menu-open", isOpen);
+      burger.setAttribute("aria-expanded", String(isOpen));
+      backdrop.hidden = !isOpen;
+    }
+
+    burger.addEventListener("click", () => toggle());
+    backdrop.addEventListener("click", () => toggle(false));
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 1024) toggle(false);
+    });
+  })();
+</script>

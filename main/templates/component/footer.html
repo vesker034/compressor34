@@ -1,0 +1,48 @@
+{% load static %}
+
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-column footer-left">
+      <h3>Компрессор34</h3>
+      <p>
+        Подбор, поставка и сопровождение компрессорного<br>
+        оборудования. Надёжные решения с установкой,<br>
+        пусконаладкой и технической поддержкой.
+      </p>
+    </div>
+
+  
+    <div class="footer-column footer-nav">
+      <h4>Навигация</h4>
+      <ul>
+        <li><a href="{% url 'about' %}">О проекте</a></li>
+        <li><a href="{% url 'product_list' %}?category=kompressory">Компрессоры</a></li>
+      <li><a href="{% url 'product_list' %}?category=zapchasti">Запчасти</a></li>
+        <li><a href="{% url 'service_list' %}">Услуги</a></li>
+        <li><a href="{% url 'delivery' %}">Доставка и оплата</a></li>
+        <li><a href="{% url 'news_list' %}">Блог</a></li>
+        <li><a href="{% url 'how_to_get' %}">Как добраться?</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-column footer-contacts">
+      <h4>Контакты</h4>
+      <p class="phone">Телефон: +7(902)389-34-42</p>
+      <div class="footer-icons">
+        <a class="icon wa" href="https://wa.me/79999348339" aria-label="WhatsApp" target="_blank"></a>
+        <a class="icon tg" href="https://t.me/79999348339" aria-label="Telegram" target="_blank"></a>
+        <a class="icon av" href="https://www.avito.ru/brands/i7599334/all?src=search_seller_info&sellerId=ffe373e15dc8eca151b3b96bb22a2425" aria-label="Avito"></a>
+      </div>
+    </div>
+  </div>
+
+ 
+  <div class="footer-phone">+7(999)934-83-39</div>
+
+  <div class="footer-bottom">
+    © 2025,
+    <a href="https://grapelab.ru" target="_blank" rel="noopener noreferrer" class="footer-link">
+      GrapeLab — Студия программной инженерии
+    </a>
+  </div>
+</footer>

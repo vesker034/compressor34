@@ -1,0 +1,206 @@
+{% extends "base.html" %} {% load static %} {% block title %}{{ news.title }} —
+Блог Компрессор34{% endblock %} {% block meta_description %}{% if
+news.short_description %}{{ news.short_description|striptags|truncatechars:160
+}}{% else %}{{ news.content|striptags|truncatechars:160 }}{% endif %}{% endblock
+%} {% block meta_keywords %}{{ news.title }}{% if news.category %}, {{
+news.category }}{% endif %}, блог, новости, Компрессор34{% endblock %} {% block
+og_title %}{{ news.title }} — Блог Компрессор34{% endblock %} {% block
+og_description %}{% if news.short_description %}{{
+news.short_description|striptags|truncatechars:160 }}{% else %}{{
+news.content|striptags|truncatechars:160 }}{% endif %}{% endblock %} {% block
+extra_head %}
+<link rel="canonical" href="{{ request.build_absolute_uri }}" />
+<link
+  rel="alternate"
+  href="{{ request.build_absolute_uri }}"
+  hreflang="ru-ru"
+/>
+<link
+  rel="alternate"
+  href="{{ request.build_absolute_uri }}"
+  hreflang="x-default"
+/>
+
+<meta property="og:type" content="article" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta
+  property="og:image"
+  content="{{ request.scheme }}://{{ request.get_host }}{% if news.preview_image %}{{ news.preview_image.url }}{% elif news.images.all %}{% with img=news.images.all.0 %}{{ img.image.url }}{% endwith %}{% else %}{% static 'media/logo.png' %}{% endif %}"
+/>
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Главная",
+        "item": "{{ request.scheme }}://{{ request.get_host }}/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Блог",
+        "item": "{{ request.scheme }}://{{ request.get_host }}{% url 'news_list' %}"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "{{ news.title|escapejs }}",
+        "item": "{{ request.build_absolute_uri }}"
+      }
+    ]
+  }
+</script>
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    "@id": "{{ request.build_absolute_uri }}",
+    "mainEntityOfPage": "{{ request.build_absolute_uri }}",
+    "headline": "{{ news.title|escapejs }}",
+    "description": "{% if news.short_description %}{{ news.short_description|striptags|truncatechars:300|escapejs }}{% else %}{{ news.content|striptags|truncatechars:300|escapejs }}{% endif %}",
+    {% if news.preview_image or news.images.all %}
+    "image": [{% if news.preview_image %}"{{ request.scheme }}://{{ request.get_host }}{{ news.preview_image.url }}"{% endif %}{% if news.preview_image and news.images.all %}, {% endif %}{% for i in news.images.all %}"{{ request.scheme }}://{{ request.get_host }}{{ i.image.url }}"{% if not forloop.last %}, {% endif %}{% endfor %}],
+    {% else %}
+    "image": ["{{ request.scheme }}://{{ request.get_host }}{% static 'media/logo.png' %}"],
+    {% endif %}
+    "datePublished": "{{ news.created_at|date:'c' }}",
+    {% if news.updated_at %}"dateModified": "{{ news.updated_at|date:'c' }}",{% else %}"dateModified": "{{ news.created_at|date:'c' }}",{% endif %}
+    {% if news.category %}"articleSection": "{{ news.category|escapejs }}",{% endif %}
+    {% if news.author %}"author": { "@type": "Person", "name": "{{ news.author|escapejs }}" },{% endif %}
+    "publisher": {
+      "@type": "Organization",
+      "name": "Компрессор34",
+      "url": "{{ request.scheme }}://{{ request.get_host }}/",
+      "logo": { "@type": "ImageObject", "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'media/logo.png' %}" }
+    }
+  }
+</script>
+{% endblock %} {% block content %}
+<link rel="stylesheet" href="{% static 'css/news_detail.css' %}" />
+
+<main class="news-detail">
+  <div class="news-detail__container">
+    <h1 class="news-detail__title">{{ news.title }}</h1>
+
+    {% if news.preview_image %}
+    <div class="news-detail__cover">
+      <img
+        src="{{ news.preview_image.url }}"
+        alt="{{ news.title }}"
+        data-fallback="{% static 'media/nophoto.jpg' %}"
+        onerror="
+          this.onerror = null;
+          this.src = this.getAttribute('data-fallback');
+        "
+      />
+    </div>
+    {% endif %}
+
+    <div class="news-detail__meta">
+      <span class="news-detail__date">{{ news.created_at|date:"d.m.Y" }}</span>
+      {% if news.category %}
+      <span class="chip">{{ news.category }}</span>
+      {% endif %}
+    </div>
+
+    {% if news.short_description %}
+    <div class="news-detail__lead">{{ news.short_description|safe }}</div>
+    {% endif %}
+
+    <div class="news-detail__content">{{ news.content|safe }}</div>
+
+    {% if news.images.all %}
+    <section class="news-carousel" aria-label="Галерея изображений новости">
+      <div class="news-carousel__viewport" tabindex="0">
+        <div class="news-carousel__track">
+          {% for img in news.images.all %}
+          <figure class="news-carousel__item">
+            <img
+              src="{{ img.image.url }}"
+              alt="{{ img.alt|default:news.title }}"
+              loading="lazy"
+              data-fallback="{% static 'media/nophoto.jpg' %}"
+              onerror="
+                this.onerror = null;
+                this.src = this.getAttribute('data-fallback');
+              "
+            />
+            {% if img.caption %}
+            <figcaption class="news-carousel__caption">
+              {{ img.caption }}
+            </figcaption>
+            {% endif %}
+          </figure>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+    {% endif %}
+
+    <div class="news-detail__back">
+      <a class="news-detail__back-link" href="{% url 'news_list' %}"
+        >← Все новости</a
+      >
+    </div>
+  </div>
+</main>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".news-carousel").forEach((carousel) => {
+      const viewport = carousel.querySelector(".news-carousel__viewport");
+      const track = carousel.querySelector(".news-carousel__track");
+      const all = Array.from(track.children);
+      const n = all.length;
+      if (n === 0) return;
+
+      function computeMetrics() {
+        if (all.length < 2) return;
+        const base = all[0].offsetLeft;
+        const step = Math.max(1, all[1].offsetLeft - all[0].offsetLeft);
+        return { base, step };
+      }
+
+      function scrollToCenter() {
+        const metrics = computeMetrics();
+        if (!metrics) return;
+        const centerIndex = Math.floor(n / 2);
+        const targetLeft = all[centerIndex].offsetLeft - metrics.base;
+        viewport.scrollTo({ left: targetLeft, behavior: "auto" });
+      }
+
+      const imgs = track.querySelectorAll("img");
+      let pending = imgs.length;
+      const done = () => {
+        scrollToCenter();
+      };
+      if (!pending) done();
+      imgs.forEach((img) => {
+        if (img.complete) {
+          if (--pending === 0) done();
+        } else {
+          img.addEventListener(
+            "load",
+            () => {
+              if (--pending === 0) done();
+            },
+            { once: true },
+          );
+          img.addEventListener(
+            "error",
+            () => {
+              if (--pending === 0) done();
+            },
+            { once: true },
+          );
+        }
+      });
+    });
+  });
+</script>
+{% endblock %}

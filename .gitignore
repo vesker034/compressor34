@@ -1,0 +1,60 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pdb
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Django
+*.log
+*.pot
+*.pyc
+*.sqlite3
+db.sqlite3
+media/
+staticfiles/
+.env
+
+# Docker
+db_data/
+*.pid
+
+# VSCode & IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Others
+*.bak
+*.tmp
+# Local secrets and databases
+.env*
+!.env.example
+*.sqlite
+*.sqlite3
+*.db
+*.pem
+*.key
+*.p12
+*.pfx
+# Local tooling and generated output
+node_modules/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.next/
+dist/
+build/
+coverage/
+*.tsbuildinfo

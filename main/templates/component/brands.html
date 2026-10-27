@@ -1,0 +1,101 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/brands.css' %}">
+
+<section class="brands-section" data-count="{{ brands|length }}">
+  <h2 class="brands-title">Производители</h2>
+
+  <button class="brands-nav prev" type="button" aria-label="Назад" hidden>
+  <img src="{% static 'media/left.svg' %}" alt="" aria-hidden="true">
+</button>
+<button class="brands-nav next" type="button" aria-label="Вперёд" hidden>
+  <img src="{% static 'media/right.svg' %}" alt="" aria-hidden="true">
+</button>
+
+
+  <div class="brand-strip" role="list">
+    {% for b in brands %}
+      <div class="brand-item" role="listitem" title="{{ b.name }}">
+        {% if b.logo %}
+          <img src="{{ b.logo.url }}" alt="{{ b.name }}" loading="lazy">
+        {% else %}
+          <div class="brand-fallback">{{ b.name }}</div>
+        {% endif %}
+      </div>
+    {% empty %}
+      <div class="brand-empty">Нет брендов</div>
+    {% endfor %}
+  </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const section = document.querySelector('.brands-section');
+  if (!section) return;
+
+  const track   = section.querySelector('.brand-strip');
+  const btnPrev = section.querySelector('.brands-nav.prev');
+  const btnNext = section.querySelector('.brands-nav.next');
+  const count   = Number(section.dataset.count || 0);
+
+  const step = () => Math.max(200, track.clientWidth - 100);
+  const snapScroll = (dir = 1) => track.scrollBy({ left: dir * step(), behavior: 'smooth' });
+
+  const toggleArrows = () => {
+    const maxScroll = track.scrollWidth - track.clientWidth - 1;
+    const atStart = track.scrollLeft <= 1;
+    const atEnd = track.scrollLeft >= maxScroll;
+    btnPrev.disabled = atStart;
+    btnNext.disabled = atEnd;
+  };
+
+  const activateIfNeeded = () => {
+    const w = window.innerWidth;
+    const threshold = (w <= 1513) ? 2 : 4; 
+    const shouldBeSlider = count >= threshold;
+
+    section.classList.toggle('is-slider', shouldBeSlider);
+    btnPrev.hidden = btnNext.hidden = !shouldBeSlider;
+
+    if (shouldBeSlider) {
+      toggleArrows();
+      positionArrows();
+    }
+  };
+
+  const positionArrows = () => {
+    if (!track) return;
+    const rect = track.getBoundingClientRect();
+    const secRect = section.getBoundingClientRect();
+    const centerTop = rect.top - secRect.top + (rect.height / 2) + 8; 
+    btnPrev.style.top = `${centerTop}px`;
+    btnNext.style.top = `${centerTop}px`;
+  };
+
+  btnPrev.addEventListener('click', () => snapScroll(-1));
+  btnNext.addEventListener('click', () => snapScroll(1));
+  track.addEventListener('scroll', toggleArrows, { passive: true });
+  window.addEventListener('resize', () => {
+    activateIfNeeded();
+    positionArrows();
+  });
+
+  track.setAttribute('tabindex', '0');
+  track.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') snapScroll(1);
+    if (e.key === 'ArrowLeft')  snapScroll(-1);
+  });
+
+  const imgs = track.querySelectorAll('img');
+  let pending = imgs.length;
+  if (pending === 0) positionArrows();
+  imgs.forEach(img => {
+    if (img.complete) { if (--pending === 0) positionArrows(); }
+    else {
+      img.addEventListener('load', () => { if (--pending === 0) positionArrows(); }, { once: true });
+      img.addEventListener('error', () => { if (--pending === 0) positionArrows(); }, { once: true });
+    }
+  });
+
+  activateIfNeeded();
+});
+</script>

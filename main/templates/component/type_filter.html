@@ -1,0 +1,30 @@
+<div class="type-filter">
+    <form method="get">
+        <ul style="color:#060606">
+            <li>
+                <label style="color:#060606">
+                    <input type="checkbox" name="type" value="porshnevye-bloki"
+                        {% if 'porshnevye-bloki' in selected_types %}checked{% endif %}
+                        onchange="this.form.submit()"
+                    >
+                    Поршневые блоки
+                </label>
+            </li>
+            <li>
+                <label style="color:#060606">
+                    <input type="checkbox" name="type" value="bloki-dlya-elektrodvigatelej"
+                        {% if 'bloki-dlya-elektrodvigatelej' in selected_types %}checked{% endif %}
+                        onchange="this.form.submit()"
+                    >
+                    Блоки для электродвигателей
+                </label>
+            </li>
+        </ul>
+        {% if category_selected %}
+            <input type="hidden" name="category" value="{{ category_selected.slug }}">
+        {% endif %}
+        {% for brand in selected_brands %}
+            <input type="hidden" name="brand" value="{{ brand }}">
+        {% endfor %}
+    </form>
+</div>

@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block title %}Компрессоры, запчасти и сервис — купить в Волгограде | Компрессор34{% endblock %}
+{% block meta_description %}Интернет-магазин Компрессор34: воздушные компрессоры под ключ — подбор, поставка, монтаж, пусконаладка и ТО. Популярные модели, новинки, бренды, услуги и блог.{% endblock %}
+{% block meta_keywords %}компрессоры, воздушные компрессоры, купить компрессор, запчасти для компрессоров, сервис компрессоров, Волгоград, пусконаладка, ТО{% endblock %}
+{% block og_title %}Компрессор34 — компрессоры, запчасти и сервис{% endblock %}
+{% block og_description %}Подбор и поставка компрессоров, монтаж, пусконаладка и обслуживание. Популярные модели, новинки и блог.{% endblock %}
+
+{% block extra_head %}
+  {% load static %}
+
+  <link rel="canonical" href="{{ request.build_absolute_uri }}">
+  <link rel="alternate" href="{{ request.build_absolute_uri }}" hreflang="ru-ru">
+  <link rel="alternate" href="{{ request.build_absolute_uri }}" hreflang="x-default">
+
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="stylesheet" href="{% static 'css/promo.css' %}">
+  <link rel="stylesheet" href="{% static 'css/products_widget.css' %}">
+  <link rel="stylesheet" href="{% static 'css/product.css' %}">
+  <link rel="stylesheet" href="{% static 'css/brands.css' %}">
+  <link rel="stylesheet" href="{% static 'css/about_project.css' %}">
+  <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Компрессор34",
+    "url": "{{ request.scheme }}://{{ request.get_host }}/",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "{{ request.scheme }}://{{ request.get_host }}/search/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Компрессор34",
+    "url": "{{ request.scheme }}://{{ request.get_host }}/",
+    "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'media/logo.png' %}",
+    "sameAs": []
+  }
+  </script>
+
+  {% if popular_products or new_products %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {% if popular_products %}
+      {
+        "@type": "ItemList",
+        "name": "Популярные товары",
+        "itemListElement": [
+          {% for p in popular_products %}
+          {% if not forloop.first %},{% endif %}
+          {
+            "@type": "ListItem",
+            "position": {{ forloop.counter }},
+            "item": {
+              "@type": "Product",
+              "name": "{{ p.title|escapejs }}",
+              "url": "{{ request.scheme }}://{{ request.get_host }}{{ p.get_absolute_url }}"
+            }
+          }
+          {% endfor %}
+        ]
+      }{% if new_products %},{% endif %}
+      {% endif %}
+      {% if new_products %}
+      {
+        "@type": "ItemList",
+        "name": "Новинки",
+        "itemListElement": [
+          {% for p in new_products %}
+          {% if not forloop.first %},{% endif %}
+          {
+            "@type": "ListItem",
+            "position": {{ forloop.counter }},
+            "item": {
+              "@type": "Product",
+              "name": "{{ p.title|escapejs }}",
+              "url": "{{ request.scheme }}://{{ request.get_host }}{{ p.get_absolute_url }}"
+            }
+          }
+          {% endfor %}
+        ]
+      }
+      {% endif %}
+    ]
+  }
+  </script>
+  {% endif %}
+
+  {% if latest_news %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Последние статьи блога",
+    "itemListElement": [
+      {% for n in latest_news|slice:":4" %}
+      {% if not forloop.first %},{% endif %}
+      {
+        "@type": "ListItem",
+        "position": {{ forloop.counter }},
+        "item": {
+          "@type": "BlogPosting",
+          "headline": "{{ n.title|escapejs }}",
+          "url": "{{ request.scheme }}://{{ request.get_host }}{% url 'news_detail' n.slug %}"
+        }
+      }
+      {% endfor %}
+    ]
+  }
+  </script>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  {% include "component/promo.html" %}
+  {% include "component/popular_new_products.html" %}
+  {% include "component/brands.html" %}
+  {% include "component/about_project.html" %}
+  {% include "component/blog.html" %}
+{% endblock %}

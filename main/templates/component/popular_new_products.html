@@ -1,0 +1,52 @@
+{% load static %}
+
+<div class="products-widget">
+    <!-- Подключаем CSS -->
+    <link rel="stylesheet" href="{% static 'css/products_widget.css' %}">
+    <link rel="stylesheet" href="{% static 'css/product.css' %}">
+    <!-- Табы -->
+    <div class="tabs">
+        <button class="tab active" data-tab="popular">Популярные</button>
+        <button class="tab" data-tab="new">Новинки</button>
+    </div>
+
+    <!-- Популярные -->
+    <div class="tab-content active" id="popular">
+        <div class="product-list-row">
+            {% for product in popular_products %}
+                {% include "component/product_card.html" with product=product %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Новинки -->
+    <div class="tab-content" id="new">
+        <div class="product-list-row">
+            {% for product in new_products %}
+                {% include "component/product_card.html" with product=product %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const tabs = document.querySelectorAll('.products-widget .tab');
+    const contents = document.querySelectorAll('.products-widget .tab-content');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            contents.forEach(c => c.classList.remove('active'));
+
+            tab.classList.add('active');
+            document.querySelector(`#${tab.dataset.tab}`).classList.add('active');
+        });
+    });
+});
+</script>
+<style>
+@media (max-width: 900px) {
+  .products-widget { display: none !important; }
+}
+</style>

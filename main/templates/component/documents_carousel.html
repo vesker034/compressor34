@@ -1,0 +1,161 @@
+{% load static %}
+<section class="documents-section" id="documents">
+  <div class="documents-container">
+    <div class="docs-head">
+      <h2 class="documents-title">Документы</h2>
+      <div class="docs-controls">
+        <button class="docs-nav docs-prev" type="button" aria-label="Предыдущая категория">‹</button>
+        <button class="docs-nav docs-next" type="button" aria-label="Следующая категория">›</button>
+      </div>
+    </div>
+
+    {% if categories and categories|length %}
+      <div class="docs-carousel" data-index="0">
+        <div class="docs-track">
+          {% for cat in categories %}
+            <div class="docs-slide">
+              <h3 class="docs-cat-title">{{ cat.name }}</h3>
+              <ul class="docs-list">
+                {% for doc in cat.documents.all %}
+                  <li class="doc-item">
+                    <a class="doc-link" href="{{ doc.file.url }}" download title="{{ doc.get_filename|default:'Документ' }}">
+                      <span class="doc-link-text">
+                        {{ doc.get_filename|default:"Документ"|truncatechars:50 }}
+                      </span>
+                    </a>
+                  </li>
+                {% empty %}
+                  <li class="doc-empty">В этой категории пока нет документов.</li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% else %}
+      <p class="doc-empty">Документов пока нет.</p>
+    {% endif %}
+  </div>
+
+  <style>
+  .documents-section { padding: 32px 0; }
+  .documents-container { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+  .docs-head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:16px; }
+  .documents-title { margin:0; font-size: clamp(20px, 2.5vw, 28px); }
+  .docs-controls { display:flex; gap:8px; }
+  .docs-nav {
+    border:1px solid #e5e7eb; background:#fff; border-radius:10px; min-width:40px; height:40px;
+    font-size:22px; line-height:1; cursor:pointer; user-select:none;
+  }
+  .docs-nav:active { transform: translateY(1px); }
+  .docs-carousel { position:relative; overflow:hidden; }
+  .docs-track { display:flex; transition: transform 280ms ease; will-change: transform; }
+  .docs-slide { flex: 0 0 100%; padding: 8px 0; }
+  .docs-cat-title { margin: 0 0 10px 0; font-size: clamp(16px, 2vw, 20px); }
+  .docs-list{
+    list-style:none; margin:0; padding:0;
+    display:grid; grid-template-columns: 1fr 1fr;
+    column-gap:60px; row-gap:20px;
+  }
+  .docs-list > :nth-child(odd)  { justify-self:start; }
+  .docs-list > :nth-child(even) { justify-self:end; }
+  .doc-item {
+    width: 100%;
+  }
+  .doc-link{
+    display:block; 
+    padding:12px 14px; 
+    border-radius:9999px; 
+    text-decoration:none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: box-shadow .2s ease, transform .12s ease;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+  }
+  .doc-link-text {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .doc-empty { color:#6b7280; }
+  @media (max-width: 820px){
+    .docs-list{ 
+      grid-template-columns: 1fr; 
+      column-gap:0; 
+      row-gap:12px; 
+    }
+    .docs-list > *{ 
+      justify-self:start; 
+    }
+    .doc-item {
+      max-width: 100%;
+    }
+  }
+</style>
+
+  <script>
+    (function() {
+      const root = document.currentScript.closest('.documents-section');
+      const carousel = root.querySelector('.docs-carousel');
+      if (!carousel) return;
+
+      const track = root.querySelector('.docs-track');
+      const slides = [...track.children];
+      const btnPrev = root.querySelector('.docs-prev');
+      const btnNext = root.querySelector('.docs-next');
+
+      let index = 0;
+      const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+      const apply = () => {
+        const width = carousel.clientWidth;
+        track.style.transform = `translateX(${-index * width}px)`;
+      };
+
+      const go = (delta) => {
+        index = clamp(index + delta, 0, Math.max(0, slides.length - 1));
+        apply();
+      };
+
+      btnPrev.addEventListener('click', () => go(-1));
+      btnNext.addEventListener('click', () => go(1));
+      window.addEventListener('resize', apply, { passive: true });
+
+      let sx = 0, dx = 0, active = false;
+      track.addEventListener('touchstart', (e) => { active = true; sx = e.touches[0].clientX; dx = 0; }, { passive: true });
+      track.addEventListener('touchmove', (e) => { if (!active) return; dx = e.touches[0].clientX - sx; }, { passive: true });
+      track.addEventListener('touchend', () => {
+        if (!active) return;
+        active = false;
+        if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1);
+      });
+
+      apply();
+
+      function adjustDocLinksWidth() {
+        const docLinks = root.querySelectorAll('.doc-link');
+        let maxWidth = 0;
+        
+        docLinks.forEach(link => {
+          const width = link.scrollWidth;
+          if (width > maxWidth) {
+            maxWidth = width;
+          }
+        });
+
+        docLinks.forEach(link => {
+          link.style.minWidth = maxWidth + 'px';
+        });
+      }
+
+      setTimeout(adjustDocLinksWidth, 100);
+      window.addEventListener('resize', adjustDocLinksWidth);
+
+    })();
+  </script>
+</section>
+
+<link rel="stylesheet" href="{% static 'css/documents.css' %}">

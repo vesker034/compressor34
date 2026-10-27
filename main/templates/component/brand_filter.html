@@ -1,0 +1,24 @@
+<div class="brand-filter">
+    <form method="get">
+        <h3 style="color:#060606">Бренды</h3>
+        <ul>
+        {% for brand in brands %}
+            <li>
+                <label>
+                    <input type="checkbox" name="brand" value="{{ brand.slug }}"
+                        {% if brand.slug in selected_brands %}checked{% endif %}
+                        onchange="this.form.submit()"
+                    >
+                    {{ brand.name }}
+                </label>
+            </li>
+        {% endfor %}
+        </ul>
+        {% if category_selected %}
+            <input type="hidden" name="category" value="{{ category_selected.slug }}">
+        {% endif %}
+    </form>
+</div>
+
+
+

@@ -1,0 +1,52 @@
+{# templates/component/may_be_interested.html #}
+{% load static %}
+
+<div class="products-widget">
+  <h2 style="text-align:center; margin:16px 0 20px; font-weight:700;">
+    Вас может заинтересовать
+  </h2>
+
+  <div class="product-list-row">
+    {% for product in popular_products %}
+      <div class="product-card">
+        {% if product.preview_image %}
+          <img src="{{ product.preview_image.url }}" alt="{{ product.title }}">
+        {% elif product.images.first %}
+          <img src="{{ product.images.first.image.url }}" alt="{{ product.title }}">
+        {% else %}
+          <img src="{% static 'media/nophoto.svg' %}" alt="Нет изображения">
+        {% endif %}
+
+        <div class="product-title">{{ product.title }}</div>
+
+        {% if product.price %}
+          <div class="product-price">{{ product.price }} р.</div>
+        {% endif %}
+
+        <div class="actions">
+          {% include "component/avito_buy_btn.html" with product=product %}
+          <a href="{% url 'product_detail' product.slug %}" class="more-btn">Подробнее</a>
+        </div>
+      </div>
+    {% empty %}
+      <div class="muted">Пока нет рекомендаций.</div>
+    {% endfor %}
+  </div>
+</div>
+<style>
+.products-widget .product-list-row {
+  display: flex;
+  flex-wrap: nowrap;      
+  gap: 16px;
+  justify-content: center;
+  overflow-x: auto;       
+  padding: 10px 0;
+}
+@media (max-width: 767.98px) {
+  .products-widget {
+    display: none;
+  }
+}
+
+
+</style>

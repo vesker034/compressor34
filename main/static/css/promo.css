@@ -1,0 +1,116 @@
+.promo {
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url("../media/promo-bg.svg");
+  background-position: center;
+  overflow: hidden;
+  width: 1636px;
+  height: 467px;
+  margin: 0 auto 100px auto;
+  font-family: 'Nunito', sans-serif;
+  display: flex;
+  align-items: center;
+}
+
+.promo__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: var(--background);
+  padding: 0 60px;
+  max-width: 800px;
+}
+
+.promo__title {
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.3;
+  margin-bottom: 24px;
+  text-align: left;
+  color: var(--background);
+}
+
+.promo__description {
+  font-size: 21px;
+  font-weight: 200;
+  line-height: 1.4;
+  color: var(--background);
+  margin-bottom: 32px;
+  text-align: left;
+}
+
+.promo-button-box {
+  width: 194px;
+  height: 52px;
+  position: relative;
+  margin: 0 auto;
+}
+
+.promo-button {
+  display: inline-block;
+  width: 194px;
+  height: 52px;
+  position: relative;
+  overflow: hidden;
+  background: none;
+  border: 0;
+  line-height: normal;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.promo-button img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.promo-button__label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Nunito', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  pointer-events: none;
+  text-align: center;
+  user-select: none;
+}
+
+.promo-button:hover { transform: scale(1.03); }
+.promo-button:focus-visible {
+  outline: 3px solid var(--color-blue-dark);
+  outline-offset: 3px;
+}
+
+/* === ADAPTIVE === */
+@media (max-width: 1636px) {
+  .promo { width: 100%; height: auto; }
+}
+
+@media (max-width: 1024px) {
+  .promo__content { padding: 0 40px; }
+  .promo__title { font-size: 28px; }
+  .promo__description { font-size: 20px; }
+  .promo-button-box,
+  .promo-button { width: 180px; height: 48px; }
+  .promo-button__label { font-size: 20px; }
+}
+
+@media (max-width: 770px) {
+  .promo { padding: 40px 0; }
+  .promo__content {
+    max-width: 100%;
+    align-items: center;
+    text-align: center;
+    padding: 0 20px;
+  }
+  .promo__title { font-size: 24px; }
+  .promo__description { font-size: 18px; }
+  .promo-button-box,
+  .promo-button { width: 168px; height: 44px; }
+  .promo-button__label { font-size: 18px; }
+}

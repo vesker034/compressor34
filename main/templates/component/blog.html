@@ -1,0 +1,31 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
+
+
+<section class="section blog-section">
+  <div class="blog-container">
+    <h3 class="blog-title">Блог</h3>
+
+    {% if latest_news %}
+      <div class="blog-cards">
+        {% for news in latest_news|slice:":4" %}
+          <a class="blog-card" href="{% url 'news_detail' news.slug %}">
+            {% if news.preview_image %}
+              <img src="{{ news.preview_image.url }}" alt="{{ news.title }}">
+            {% endif %}
+            <p class="blog-card__title">{{ news.title }}</p>
+          </a>
+        {% endfor %}
+      </div>
+
+      <div class="blog-button-box">
+        <a href="{% url 'news_list' %}" class="blog-button" aria-label="Больше статей">
+          <img src="{% static 'media/button_torn.svg' %}" alt="">
+          <span class="blog-button__label">Больше статей</span>
+        </a>
+      </div>
+    {% else %}
+      <p class="blog-empty">Нет новостей.</p>
+    {% endif %}
+  </div>
+</section>

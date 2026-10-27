@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ service.title }} — Компрессор34{% endblock %}
+{% block meta_description %}{% if service.seo_description %}{{ service.seo_description }}{% else %}{{ service.description|striptags|truncatechars:160 }}{% endif %}{% endblock %}
+{% block og_title %}{{ service.title }} — Компрессор34{% endblock %}
+{% block og_description %}{% if service.seo_description %}{{ service.seo_description }}{% else %}{{ service.description|striptags|truncatechars:160 }}{% endif %}{% endblock %}
+
+{% block extra_head %}
+<link rel="canonical" href="{{ request.build_absolute_uri }}">
+<link rel="alternate" href="{{ request.build_absolute_uri }}" hreflang="ru-ru">
+<link rel="alternate" href="{{ request.build_absolute_uri }}" hreflang="x-default">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% if service.image %}{{ service.image.url }}{% else %}{% static 'media/logo.png' %}{% endif %}">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Главная", "item": "{{ request.scheme }}://{{ request.get_host }}/" },
+    { "@type": "ListItem", "position": 2, "name": "Услуги", "item": "{{ request.scheme }}://{{ request.get_host }}{% url 'service_list' %}" },
+    { "@type": "ListItem", "position": 3, "name": "{{ service.title|escapejs }}", "item": "{{ request.build_absolute_uri }}" }
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "{{ service.title|escapejs }}",
+  "description": "{% if service.seo_description %}{{ service.seo_description|escapejs }}{% else %}{{ service.description|striptags|truncatechars:300|escapejs }}{% endif %}",
+  "url": "{{ request.build_absolute_uri }}",
+  "image": "{{ request.scheme }}://{{ request.get_host }}{% if service.image %}{{ service.image.url }}{% else %}{% static 'media/nophoto.svg' %}{% endif %}",
+  "provider": {
+    "@type": "Organization",
+    "name": "Компрессор34",
+    "url": "{{ request.scheme }}://{{ request.get_host }}/",
+    "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'media/logo.png' %}"
+  }{% if service.price_from %},
+  "offers": {
+    "@type": "Offer",
+    "price": "{{ service.price_from }}",
+    "priceCurrency": "RUB",
+    "availability": "https://schema.org/InStock",
+    "url": "{{ request.build_absolute_uri }}"
+  }{% endif %}
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/service_detail.css' %}">
+
+<style>
+  .service-detail__features ul.checks li::before{
+    background-image: url("{% static 'media/Checkmark.svg' %}");
+  }
+</style>
+
+<main class="service-detail">
+  <div class="service-detail__container">
+    <div class="service-detail__head">
+      <h1 class="service-detail__title">{{ service.title }}</h1>
+      {% if service.is_new %}
+        <span class="chip chip--fixed">НОВАЯ УСЛУГА</span>
+      {% endif %}
+    </div>
+
+    <div class="service-detail__layout">
+      <div class="service-detail__media">
+        {% if service.image %}
+          <img src="{{ service.image.url }}" alt="{{ service.title }}">
+        {% else %}
+          <img src="{% static 'media/nophoto.svg' %}" alt="{{ service.title }}">
+        {% endif %}
+      </div>
+
+      <div class="service-detail__info">
+        {% if service.description %}
+          <div class="service-detail__text">
+            {{ service.description|safe }}
+          </div>
+        {% endif %}
+
+        {% if details_lines %}
+          <div class="service-detail__features">
+            <ul class="checks">
+              {% for line in details_lines %}
+                <li>{{ line }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="service-detail__bottom">
+      <div class="service-detail__left">
+        {% if service.price_from %}
+          <div class="service-detail__price">
+            от <b>{{ service.price_from }}</b> руб.
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="service-detail__cta">
+        {% if service.avito_url %}
+          <a class="cta-btn" href="{{ service.avito_url }}" target="_blank" rel="noopener">
+            <img src="{% static 'media/button_torn.svg' %}" alt="">
+            <span class="cta-btn__label">Смотреть на Авито</span>
+          </a>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="service-detail__back">
+      <a href="{% url 'service_list' %}">← Все услуги</a>
+    </div>
+  </div>
+</main>
+{% endblock %}

@@ -1,0 +1,5 @@
+{% if product.avito_url %}
+<a href="{% url 'avito_redirect' product.slug %}" target="_blank" class="buy-btn">
+  Купить
+</a>
+{% endif %}

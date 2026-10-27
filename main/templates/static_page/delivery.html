@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Доставка и оплата — Компрессор34{% endblock %}
+
+
+
+{% block content %}
+  <link rel="stylesheet" href="{% static 'css/delivery.css' %}">
+  <main class="delivery-page">
+    <h1 class="delivery-title">Доставка и оплата</h1>
+
+    <section class="delivery-intro">
+      <p>
+        Наш сервис выполняет доставку по всему Волгограду и Волжскому.<br>
+        Стоимость доставки зависит от района.
+      </p>
+    </section>
+
+    <!-- Волгоград -->
+    <section class="city-block">
+      <h2 class="city-title">Волгоград</h2>
+
+      <ul class="price-list">
+        <li class="price-row">
+          <span class="icon-check" aria-hidden="true"></span>
+          <span class="name">Центральный</span>
+          <span class="dotline"></span>
+          <span class="price">500 руб.</span>
+        </li>
+        <li class="price-row">
+          <span class="icon-check" aria-hidden="true"></span>
+          <span class="name">Дзержинский</span>
+          <span class="dotline"></span>
+          <span class="price">500 руб.</span>
+        </li>
+        <li class="price-row">
+          <span class="icon-check" aria-hidden="true"></span>
+          <span class="name">Ворошиловский</span>
+          <span class="dotline"></span>
+          <span class="price">700 руб.</span>
+        </li>
+        <li class="price-row">
+          <span class="icon-check" aria-hidden="true"></span>
+          <span class="name">Краснооктябрьский</span>
+          <span class="dotline"></span>
+          <span class="price">700 руб.</span>
+        </li>
+        <li class="price-row">
+          <span class="icon-check" aria-hidden="true"></span>
+          <span class="name">Городище</span>
+          <span class="dotline"></span>
+          <span class="price">700 руб.</span>
+        </li>
+        <li class="price-row">
+          <span class="icon-check" aria-hidden="true"></span>
+          <span class="name">Советский</span>
+          <span class="dotline"></span>
+          <span class="price">800 руб.</span>
+        </li>
+        <li class="price-row">
+          <span class="icon-check" aria-hidden="true"></span>
+          <span class="name">Тракторозаводский</span>
+          <span class="dotline"></span>
+          <span class="price">800 руб.</span>
+        </li>
+        <li class="price-row">
+          <span class="icon-check" aria-hidden="true"></span>
+          <span class="name">Кировский</span>
+          <span class="dotline"></span>
+          <span class="price">1000 руб.</span>
+        </li>
+        <li class="price-row">
+          <span class="icon-check" aria-hidden="true"></span>
+          <span class="name">Красноармейский</span>
+          <span class="dotline"></span>
+          <span class="price">1000 руб.</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Волжский -->
+    <section class="city-block">
+      <h2 class="city-title">Волжский</h2>
+
+      <div class="single-price">
+        <span class="icon-check" aria-hidden="true"></span>
+        <span class="price-strong">1000 руб.</span>
+        <span class="note">по всему городу</span>
+      </div>
+    </section>
+
+    <!-- Оплата -->
+    <section class="payment">
+      <h2 class="payment-title">Оплата производится тремя из возможных способов</h2>
+
+      <div class="payment-grid">
+        <div class="payment-item">
+          <div class="payment-icon">
+            <img src="{% static 'media/pay_cash.svg' %}" alt="Оплата наличными" />
+          </div>
+          <div class="payment-caption">наличными</div>
+        </div>
+
+        <div class="payment-item">
+          <div class="payment-icon">
+            <img src="{% static 'media/pay_card.svg' %}" alt="Оплата картой" />
+          </div>
+          <div class="payment-caption">картой</div>
+        </div>
+
+        <div class="payment-item">
+          <div class="payment-icon">
+            <img src="{% static 'media/pay_invoice.svg' %}" alt="Оплата по счету / QR" />
+          </div>
+          <div class="payment-caption">по счету</div>
+        </div>
+      </div>
+    </section>
+  </main>
+{% endblock %}

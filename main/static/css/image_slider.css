@@ -1,0 +1,98 @@
+.image-slider {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    position: relative;
+}
+
+/* Миниатюры */
+.slider-thumbnails {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.slider-thumbnails img {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: border 0.2s, transform 0.2s;
+}
+.slider-thumbnails img.active {
+    border-color: var(--color-blue);
+    transform: scale(1.05);
+}
+
+/* Главное изображение */
+.slider-main {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+.slider-main img.slider-current {
+    max-width: 400px;
+    max-height: 400px;
+    width: 100%;
+    object-fit: contain;
+    cursor: pointer;
+    border-radius: 8px;
+    background: var(--color-blue-lighter);
+}
+
+/* Кнопки */
+.slider-btn {
+    background: rgba(0, 0, 0, 0.6);
+    border: none;
+    color: #fff;
+    font-size: 2em;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    z-index: 5;
+    cursor: pointer;
+}
+.slider-btn.prev { left: 8px; }
+.slider-btn.next { right: 8px; }
+
+/* Модалка */
+.slider-modal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+.slider-modal.hidden { display: none; }
+.modal-img {
+    max-width: 85%;
+    max-height: 85%;
+    object-fit: contain;
+}
+.modal-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.6);
+    border: none;
+    color: #fff;
+    font-size: 3em;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    z-index: 10000;
+}
+.modal-btn.prev { left: 40px; }
+.modal-btn.next { right: 40px; }

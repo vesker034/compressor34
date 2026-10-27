@@ -1,0 +1,262 @@
+{% extends "base.html" %} {% load static %}
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>
+    О компании — Компрессор34: компрессоры, монтаж и сервис в Волгограде
+  </title>
+  <meta
+    name="description"
+    content="Компрессор34 — поставка воздушных компрессоров, монтаж компрессорных станций, запчасти и сервис. 15 лет опыта, сертифицированные инженеры, поддержка 24/7. Волгоград."
+  />
+  <meta
+    name="keywords"
+    content="о компании, Компрессор34, компрессоры Волгоград, монтаж компрессорных станций, запчасти для компрессоров, сервис компрессоров, ремонт компрессоров"
+  />
+  <link rel="canonical" href="{{ request.build_absolute_uri }}" />
+
+  <!-- Разметка schema.org для Яндекса (Organization) -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Компрессор34",
+      "url": "https://compressor34.ru",
+      "logo": "{% static 'media/logo.png' %}",
+      "description": "Поставка воздушных компрессоров, монтаж, сервис и запчасти. Волгоград.",
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "telephone": "+7-999-934-83-39",
+          "contactType": "customer service",
+          "areaServed": "RU"
+        }
+      ],
+      "address": [
+        {
+          "@type": "PostalAddress",
+          "addressLocality": "Волгоград",
+          "streetAddress": "ул. Землячки, д. 47Г",
+          "addressCountry": "RU"
+        },
+        {
+          "@type": "PostalAddress",
+          "addressLocality": "Волгоград",
+          "streetAddress": "ул. Советская, д. 29",
+          "addressCountry": "RU"
+        }
+      ]
+    }
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Главная",
+          "item": "https://compressor34.ru/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "О компании",
+          "item": "{{ request.build_absolute_uri }}"
+        }
+      ]
+    }
+  </script>
+
+</head>
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/about_company.css' %}" />
+<link rel="stylesheet" href="{% static 'css/advantages.css' %}" />
+<link rel="stylesheet" href="{% static 'css/company_values.css' %}" />
+<link rel="stylesheet" href="{% static 'css/what_we_do.css' %}" />
+<link rel="stylesheet" href="{% static 'css/why_choose.css' %}" />
+<link rel="stylesheet" href="{% static 'css/documents.css' %}" />
+<link rel="stylesheet" href="{% static 'css/about_mobile_overrides.css' %}" />
+<body>
+  <br />
+  <main class="about-company-page">
+    <section class="company-section">
+      <div class="company-container">
+        <div class="company-text">
+          <h2 class="company-heading">О компании</h2>
+          <div class="company-paragraphs">
+            <p>
+              Компрессор34 — это команда специалистов, которая предлагает<br />
+              комплексные решения в сфере сжатого воздуха. Мы занимаемся не
+              просто<br />
+              продажей оборудования, а сопровождаем клиента на каждом этапе:
+              от<br />
+              подбора компрессора под конкретные задачи до его установки,<br />
+              пусконаладки и технического обслуживания.
+            </p>
+            <p>
+              Наша цель — обеспечить бизнес надёжным оборудованием, которое<br />
+              работает эффективно и без сбоев. Мы предлагаем как новые
+              воздушные<br />
+              компрессоры, так и оригинальные комплектующие и запасные части,
+              что<br />
+              позволяет быстро решать любые сервисные задачи.
+            </p>
+          </div>
+        </div>
+        <div class="company-image"></div>
+      </div>
+    </section>
+
+    <!-- 2) Преимущества -->
+    <section class="advantages-section">
+      <div class="advantages-container">
+        <h2 class="advantages-title">Работая с нами, вы получаете:</h2>
+        <div class="advantages-grid">
+          <div class="advantage-item">
+            <img src="{% static 'media/Choose.svg' %}" alt="" />
+            <span>Индивидуальный подбор оборудования</span>
+          </div>
+          <div class="advantage-item">
+            <img src="{% static 'media/Warehouse.svg' %}" alt="" />
+            <span>Доступ к широкому складу запасных частей</span>
+          </div>
+          <div class="advantage-item">
+            <img src="{% static 'media/Deliver_Food.svg' %}" alt="" />
+            <span>Оперативную поставку и монтаж</span>
+          </div>
+          <div class="advantage-item">
+            <img src="{% static 'media/Online_Support.svg' %}" alt="" />
+            <span>Техническую поддержку на всех этапах</span>
+          </div>
+          <div class="advantage-item">
+            <img src="{% static 'media/Tools.svg' %}" alt="" />
+            <span>Гарантийное и постгарантийное обслуживание</span>
+          </div>
+          <div class="advantage-item">
+            <img src="{% static 'media/Diploma.svg' %}" alt="" />
+            <span>Работа с сертифицированными инженерами</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3) Ценности компании -->
+    <section class="values-section">
+      <div class="values-container">
+        <h2 class="values-title">Ценности компании</h2>
+
+        <div class="values-columns">
+          <div class="values-left">
+            <p>
+              <strong>Наша миссия</strong> — обеспечивать клиентов надёжными и
+              эффективными<br />
+              решениями в сфере сжатого воздуха.<br />
+              Мы стремимся стать технологическим партнёром, который не просто<br />
+              поставляет оборудование, но и создаёт долгосрочную ценность для<br />
+              бизнеса за счёт грамотного подбора, стабильной работы и<br />
+              профессиональной поддержки.
+            </p>
+          </div>
+
+          <div class="values-right">
+            <div class="value-item">
+              <img src="{% static 'media/Checkmark.svg' %}" alt="" />
+              <span>Надёжность и ответственность</span>
+            </div>
+            <div class="value-item">
+              <img src="{% static 'media/Checkmark.svg' %}" alt="" />
+              <span>Эффективность решений</span>
+            </div>
+            <div class="value-item">
+              <img src="{% static 'media/Checkmark.svg' %}" alt="" />
+              <span>Поддержка на всех этапах</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4) Чем мы занимаемся -->
+    <section class="what-section">
+      <h2 class="what-title">Чем мы занимаемся</h2>
+
+      <div class="what-grid">
+        <div class="what-item">
+          <img src="{% static 'media/purchase.svg' %}" alt="" />
+          <p>Продажа воздушных<br />компрессоров</p>
+        </div>
+
+        <div class="what-item">
+          <img src="{% static 'media/air-compressor.svg' %}" alt="" />
+          <p>Монтаж компрессорных<br />станций</p>
+        </div>
+
+        <div class="what-item">
+          <img src="{% static 'media/kit.svg' %}" alt="" />
+          <p>Поставка запчастей и<br />комплектующих</p>
+        </div>
+
+        <div class="what-item">
+          <img src="{% static 'media/maintenance.svg' %}" alt="" />
+          <p>Обслуживание и ремонт<br />оборудования</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5) Почему выбирают нас -->
+    <section class="why-choose">
+      <h2 class="why-choose__title">Почему выбирают нас</h2>
+
+      <div class="why-choose__banner">
+        <div class="why-choose__items">
+          <div class="why-choose__item">
+            <h3>15 лет — надёжный партнёр для бизнеса</h3>
+            <p>
+              С 2010 года мы сопровождаем промышленные и коммерческие проекты по
+              всей России.
+            </p>
+          </div>
+          <div class="why-choose__item">
+            <h3>Без посредников, только прямые поставки</h3>
+            <p>
+              Мы работаем напрямую с производителями оборудования и
+              комплектующих — без лишних звеньев и на честных условиях.
+            </p>
+          </div>
+          <div class="why-choose__item">
+            <h3>Экспертная инженерная команда</h3>
+            <p>
+              Только сертифицированные специалисты с опытом внедрения решений в
+              разных отраслях.
+            </p>
+          </div>
+          <div class="why-choose__item">
+            <h3>Чёткие стандарты качества и гарантия</h3>
+            <p>
+              Все работы ведутся по техрегламенту, с официальной гарантией и
+              постгарантийной поддержкой.
+            </p>
+          </div>
+          <div class="why-choose__item">
+            <h3>Клиентская поддержка без выходных</h3>
+            <p>
+              Мы на связи 24/7 — от первого звонка до планового сервиса и
+              экстренного ремонта.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6) Документы -->
+    <section class="documents-section" aria-label="Документы">
+      {% include 'component/documents_carousel.html' with
+      categories=doc_categories %}
+    </section>
+  </main>
+
+  {% endblock %}
+</body>
